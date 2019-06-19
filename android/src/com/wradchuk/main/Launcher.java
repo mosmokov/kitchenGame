@@ -5,23 +5,13 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.wradchuk.game.Menu;
-import com.wradchuk.task.LoaderListener;
-import com.wradchuk.task.ResourceMenuLoader;
 import com.wradchuk.utils.PatchedAndroidApplication;
 
-public class Launcher extends PatchedAndroidApplication implements ApplicationListener, LoaderListener {
+public class Launcher extends PatchedAndroidApplication implements ApplicationListener {
 
 	public static int  WIDTH = -1;
 	public static int HEIGHT = -1;
-	public static int mProgressLoader;
-	private Menu mMenu;
-	private SpriteBatch mSpriteBatchGraphics;
-	private Texture mTexturProgress;
-	private Sprite  mSpriteProgress;
+
 
 
 	@Override protected void onCreate(Bundle savedInstanceState) {
@@ -38,47 +28,19 @@ public class Launcher extends PatchedAndroidApplication implements ApplicationLi
 		HEIGHT = Gdx.graphics.getHeight();
 		Gdx.gl20.glViewport(0, 0, WIDTH, HEIGHT);
 
-		mMenu = new Menu();
 
-		mMenu.addGraphics();
-		addProgress();
-
-		mProgressLoader = 0;
-		ResourceMenuLoader mResourceMenuLoader = new ResourceMenuLoader(mMenu, this);
-		mResourceMenuLoader.execute();
 	}
 	@Override public    void  render() {
 		Gdx.gl20.glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
-
-			mSpriteBatchGraphics.begin();
-			mSpriteBatchGraphics.draw(mSpriteProgress, 0,0, mProgressLoader, mSpriteProgress.getHeight());
-			mSpriteBatchGraphics.end();
-
-		mMenu.render();
 	}
-	@Override public    void dispose() {
-		//mMenu.dispose();
-	}
+
+	@Override public    void dispose() {}
 	@Override public    void  resize(int width, int height) {
 		WIDTH = width; HEIGHT = height;
 		Gdx.gl20.glViewport(0,0, WIDTH, HEIGHT);
 	}
 	@Override public    void   pause() {}
 	@Override public    void  resume() {}
-
-	private void addProgress() {
-		mSpriteBatchGraphics = new SpriteBatch();
-		mTexturProgress = new Texture("img/fon/bg_0.png");
-		mSpriteProgress = new Sprite(mTexturProgress);
-	}
-	public static void setProgressLoader(int progressLoader) {
-		Launcher.mProgressLoader = progressLoader;
-	}
-
-	@Override
-	public void onComplete() {
-		mMenu.mComplete = true;
-	}
 }

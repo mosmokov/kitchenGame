@@ -4,6 +4,7 @@ package com.wradchuk.game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.wradchuk.main.Launcher;
 
 public class Menu  {
 
@@ -22,16 +23,25 @@ public class Menu  {
     public void setSpriteBackground () {
         mSpriteBackground = new Sprite(mTextureBackground);
     }
+    public Texture getTextureBackground() {
+        return mTextureBackground;
+    }
+    public Sprite getSpriteBackground() {
+        return mSpriteBackground;
+    }
     public void render() {
         if(mComplete) {
             mSpriteBatchGraphic.begin();
-            mSpriteBatchGraphic.draw(mSpriteBackground, 0,0,mSpriteBackground.getWidth(), mSpriteBackground.getHeight());
+            mSpriteBatchGraphic.draw(mSpriteBackground, 300,Launcher.HEIGHT-200,mSpriteBackground.getWidth(), mSpriteBackground.getHeight());
             mSpriteBatchGraphic.end();
+
+
         }
 
     }
     public void dispose(){
         if(mComplete) {
+            mTextureBackground.dispose();
             mSpriteBatchGraphic.dispose();
         }
     }

@@ -2,6 +2,9 @@ package com.wradchuk.utils;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
 
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
@@ -13,6 +16,7 @@ import android.media.MediaPlayer.OnErrorListener;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
+import android.opengl.GLES32;
 import android.util.Log;
 import android.view.Surface;
 
@@ -23,8 +27,11 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Mesh;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.VertexAttribute;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.video.VideoPlayer;
@@ -39,17 +46,18 @@ public class MyVideoPlayerAndroid implements VideoPlayer, OnFrameAvailableListen
     public static final String ATTRIBUTE_TEXCOORDINATE = ShaderProgram.TEXCOORD_ATTRIBUTE + "0";
     public static final String VARYING_TEXCOORDINATE = "varTexCoordinate";
     public static final String UNIFORM_TEXTURE = "texture";
-    public static final String UNIFORM_CAMERATRANSFORM = "camTransform";
+    public static final String UNIFORM_CAMERATRANSFORM = "camTransform";//camTransform
+    public SpriteBatch batch;
 
     //@formatter:off
     public String vertexShaderCode = "attribute vec4 a_position;    \n" +
-            "attribute vec2 " + ATTRIBUTE_TEXCOORDINATE + ";" +
-            "uniform mat4 " + UNIFORM_CAMERATRANSFORM + ";" +
+            "attribute mediump vec2 " + ATTRIBUTE_TEXCOORDINATE + ";" +
+            "uniform mediump mat4 " + UNIFORM_CAMERATRANSFORM + ";" +
             "varying mediump vec2 " + VARYING_TEXCOORDINATE + ";" +
             "void main()                   \n" +
             "{                             \n" +
-            "   gl_Position = " + UNIFORM_CAMERATRANSFORM + " * a_position;  \n" +
-            "   varTexCoordinate = " + ATTRIBUTE_TEXCOORDINATE + ";\n" +
+            "   gl_Position = " + UNIFORM_CAMERATRANSFORM + " * a_position ;  \n" +
+            "   varTexCoordinate = " + ATTRIBUTE_TEXCOORDINATE + " ;\n" +
             "}                             \n";
 
     public String fragmentShaderCode = "#extension GL_OES_EGL_image_external : require\n" +
@@ -80,30 +88,24 @@ public class MyVideoPlayerAndroid implements VideoPlayer, OnFrameAvailableListen
     CompletionListener completionListener;
     public int primitiveType = GL20.GL_TRIANGLES;
 
+
     public MyVideoPlayerAndroid () {
-        this(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-    }
-
-    public MyVideoPlayerAndroid (Viewport viewport) {
         shader = new ShaderProgram(vertexShaderCode, fragmentShaderCode);
+        //viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        customMesh = true;
         setupRenderTexture();
-
-        this.viewport = viewport;
         cam = viewport.getCamera();
         mesh = new Mesh(true, 4, 6, VertexAttribute.Position(), VertexAttribute.TexCoords(0));
         //@formatter:off
-        mesh.setVertices(new float[] {0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0});
+        mesh.setVertices(new float[] {
+                0, 0, 0, 0, 1,
+                0, 0, 0, 1, 1,
+                0, 0, 0, 1, 0,
+                0, 0, 0, 0, 0
+        });
         //@formatter:on
         mesh.setIndices(new short[] {0, 1, 2, 2, 3, 0});
-    }
-
-    public MyVideoPlayerAndroid (Camera cam, Mesh mesh, int primitiveType) {
-        this.cam = cam;
-        this.mesh = mesh;
-        this.primitiveType = primitiveType;
-        customMesh = true;
-        shader = new ShaderProgram( vertexShaderCode,fragmentShaderCode);
-        setupRenderTexture();
     }
 
     @Override public boolean play (final FileHandle file) throws FileNotFoundException {
@@ -189,10 +191,24 @@ public class MyVideoPlayerAndroid implements VideoPlayer, OnFrameAvailableListen
 
         // Draw texture
         GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, textures[0]);
+
+        //cam.near=-10;
+        //cam.far=+10;
+        //cam.position = new Vector3(0,0,0);
+        //cam.translate(0,0,100);
+        //cam.rotate(1,0,0,0.1f);
+        //cam.update();
         shader.begin();
         shader.setUniformMatrix(UNIFORM_CAMERATRANSFORM, cam.combined);
         mesh.render(shader, primitiveType);
         shader.end();
+        //GLES20.glEnable(GLES20.GL_TEXTURE);
+
+
+
+
+
+
 
         return !done;
     }
@@ -222,6 +238,7 @@ public class MyVideoPlayerAndroid implements VideoPlayer, OnFrameAvailableListen
 
         videoTexture = new SurfaceTexture(textures[0]);
         videoTexture.setOnFrameAvailableListener(this);
+
     }
 
     @Override public void onFrameAvailable (SurfaceTexture surfaceTexture) {
@@ -287,4 +304,3 @@ public class MyVideoPlayerAndroid implements VideoPlayer, OnFrameAvailableListen
     }
 
 }
-

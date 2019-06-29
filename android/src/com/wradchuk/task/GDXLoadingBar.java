@@ -78,7 +78,7 @@ public class GDXLoadingBar  {
 
 
         int initialPosX = 40;
-        int initialPosY = Launcher.HEIGHT-19;
+        int initialPosY =19;
 
         batch.draw(loadingBarBackground,
                 initialPosX,

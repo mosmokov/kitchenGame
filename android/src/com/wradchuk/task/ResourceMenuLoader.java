@@ -51,12 +51,12 @@ public class ResourceMenuLoader extends AsyncTask<Void, Integer, Void> {
         loading_test();
     }
     private void loading_test() {
-        for(int i = 0; i < Launcher.WIDTH; i+=Launcher.HEIGHT/4)
+        for(int i = 0; i < 1; i+=1)
         {
             publishProgress(i);
            Debug.treadSleep(100);
 
         }
-        publishProgress(Launcher.WIDTH);
+        publishProgress(1);
     }
 }

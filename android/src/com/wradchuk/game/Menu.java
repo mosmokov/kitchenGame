@@ -32,7 +32,7 @@ public class Menu  {
     public void render() {
         if(mComplete) {
             mSpriteBatchGraphic.begin();
-            mSpriteBatchGraphic.draw(mSpriteBackground, 300,Launcher.HEIGHT-200,mSpriteBackground.getWidth(), mSpriteBackground.getHeight());
+            mSpriteBatchGraphic.draw(mSpriteBackground, 300,200,mSpriteBackground.getWidth(), mSpriteBackground.getHeight());
             mSpriteBatchGraphic.end();
 
 

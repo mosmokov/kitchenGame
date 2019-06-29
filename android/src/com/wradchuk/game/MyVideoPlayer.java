@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import com.wradchuk.R;
 import com.wradchuk.main.Launcher;
+
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.MediaController;
@@ -32,6 +34,17 @@ public class MyVideoPlayer extends Activity {
         MediaController vidControl = new MediaController(this);
         vidControl.setAnchorView(vidView);
         vidView.setMediaController(vidControl);
+
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        android.widget.RelativeLayout.LayoutParams params = (android.widget.RelativeLayout.LayoutParams) vidView.getLayoutParams();
+        params.width = metrics.widthPixels;
+        params.height = metrics.heightPixels;
+        params.leftMargin = 0;
+        vidView.setLayoutParams(params);
+
+        vidView.start();
 
         button = findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {

@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
+import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.wradchuk.utils.Debug;
 import com.wradchuk.utils.PatchedAndroidApplication;
@@ -25,6 +26,7 @@ public class TestRoom extends PatchedAndroidApplication implements ApplicationLi
     public ModelBatch modelBatch  ;
     public Model model;
     public ModelInstance instances;
+    public AnimationController controller;;
 
 
     @Override protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,8 @@ public class TestRoom extends PatchedAndroidApplication implements ApplicationLi
 
         model = Debug.loadModelG3D("Models/watermelon.g3db");
         instances = new ModelInstance(model);
+        controller = new AnimationController(instances);
+        controller.setAnimation("name_animation");
     }
     @Override
     public void resize(int width, int height) {
@@ -68,6 +72,7 @@ public class TestRoom extends PatchedAndroidApplication implements ApplicationLi
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
         camController.update();
+        controller.update(Debug.getTime());
 
         modelBatch.begin(cam);
         modelBatch.render(instances, environment);

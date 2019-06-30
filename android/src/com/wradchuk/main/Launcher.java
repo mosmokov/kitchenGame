@@ -33,8 +33,12 @@ public class Launcher extends PatchedAndroidApplication implements ApplicationLi
 
 		context.runOnUiThread(new Runnable() {
 			public void run() {
-				MyVideoPlayer myVideoPlayer = new MyVideoPlayer();
-				context.startActivity(new Intent(context, myVideoPlayer.getClass()));
+				//MyVideoPlayer myVideoPlayer = new MyVideoPlayer();
+				//context.startActivity(new Intent(context, myVideoPlayer.getClass()));
+				//context.finish();
+
+				TestRoom testRoom = new TestRoom();
+				context.startActivity(new Intent(context, testRoom.getClass()));
 				context.finish();
 			}
 		});

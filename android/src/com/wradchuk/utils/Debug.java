@@ -2,10 +2,14 @@ package com.wradchuk.utils;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.ModelLoader;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g3d.Model;
+import com.badlogic.gdx.graphics.g3d.loader.ObjLoader;
 import com.badlogic.gdx.math.Vector2;
 import org.jetbrains.annotations.NotNull;
 
@@ -42,5 +46,20 @@ public class Debug {
         } catch (InterruptedException e) {
             Debug.debug(e.getMessage());
         }
+    }
+    public static Model loadModelOBJ(String _model_file) {
+        ModelLoader loader = new ObjLoader();
+        //Debug.debug(Gdx.files.internal(_model_file).path());
+        Model model =  loader.loadModel(Gdx.files.internal(_model_file));
+        return model;
+
+    }
+    public static Model loadModelG3D(String _model_file) {
+        //Debug.debug(Gdx.files.internal(_model_file).path());
+        AssetManager assets = new AssetManager();
+        assets.load(Gdx.files.internal(_model_file).path(), Model.class);
+        assets.finishLoading();
+        Model model = assets.get(Gdx.files.internal(_model_file).path(), Model.class);
+        return model;
     }
 }

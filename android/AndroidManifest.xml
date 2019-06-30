@@ -42,6 +42,9 @@
         <activity android:name=".game.MyVideoPlayer"
             android:screenOrientation="landscape"
             android:lockTaskMode="never"/>
+        <activity android:name=".main.TestRoom"
+            android:screenOrientation="portrait"
+            android:lockTaskMode="never"/>
     </application>
 
 </manifest>

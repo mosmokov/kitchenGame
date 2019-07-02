@@ -10,10 +10,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class GDXLoadingBar  {
     public SpriteBatch batch;
     public AssetManager assetManager;
+    private Texture loadingBackground;
     private Texture loadingBarBackground;
     private Texture loadingBarProgress;
     public Sprite lbb;
     public Sprite lbp;
+
+
 
     public boolean isLoaded = false;
     public boolean isInit = false;
@@ -22,6 +25,7 @@ public class GDXLoadingBar  {
     public Music music;
 
     private void loadAssets() {
+        assetManager.load("img/pBackground.png"   , Texture.class);
         assetManager.load("img/pBarBack.png"   , Texture.class);
         assetManager.load("img/pBarLoading.png", Texture.class);
         assetManager.finishLoading();
@@ -41,6 +45,7 @@ public class GDXLoadingBar  {
         batch = new SpriteBatch();
         assetManager = new AssetManager();
         this.loadAssets();
+        loadingBackground = assetManager.get("img/pBackground.png", Texture.class);
         loadingBarBackground = assetManager.get("img/pBarBack.png", Texture.class);
         loadingBarProgress = assetManager.get("img/pBarLoading.png",Texture.class);
 
@@ -72,12 +77,13 @@ public class GDXLoadingBar  {
     public void render () {
         loading();
         if(isInit) {
-            batch.begin();
-            for (int i = 0; i < MAX; i++) batch.draw(img1[i],i*100,0);
-            batch.end();
+           // batch.begin();
+           // for (int i = 0; i < MAX; i++) batch.draw(img1[i],i*100,0);
+           // batch.end();
         }
 
         batch.begin();
+        batch.draw(loadingBackground, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.draw(lbb, 0, 0,
                 lbb.getWidth(), lbb.getHeight());
         batch.draw(lbp, 0, 0,

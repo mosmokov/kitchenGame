@@ -1,106 +1,95 @@
 package com.wradchuk.task;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.wradchuk.main.Launcher;
 
 public class GDXLoadingBar  {
-    SpriteBatch batch;
-    Texture img;
-    Texture img1[] = new Texture[11];
+    public SpriteBatch batch;
+    public AssetManager assetManager;
+    private Texture loadingBarBackground;
+    private Texture loadingBarProgress;
+    public Sprite lbb;
+    public Sprite lbp;
 
-    AssetManager assetManager;
-    Texture loadingBarBackground;
-    Texture loadingBarProgress;
+    public boolean isLoaded = false;
+    public boolean isInit = false;
+    public final int MAX = 6;
+    public Texture img1[] = new Texture[MAX];
+    public Music music;
 
-    TextureRegion loadingBarProgressStart;
-    TextureRegion loadingBarProgressBody;
-    TextureRegion loadingBarProgressEnd;
-
-    private void loadAssets(){
-
-        // load synchronously
-        assetManager.load("img/pBarBack.png", Texture.class);
+    private void loadAssets() {
+        assetManager.load("img/pBarBack.png"   , Texture.class);
         assetManager.load("img/pBarLoading.png", Texture.class);
-        assetManager.load("img/pBackground.png", Texture.class);
         assetManager.finishLoading();
-
-        // load asynchronously
-        for(int i = 0; i <img1.length; i++) {
-            assetManager.load("img/"+(i+1)+".png", Texture.class);
-
-            //Debug.treadSleep(100);
-        }
-
-
-
-
+    }
+    private void loadAssets1() {
+        assetManager.load("img/0.png", Texture.class);
+        assetManager.load("img/1.png", Texture.class);
+        assetManager.load("img/2.png", Texture.class);
+        assetManager.load("img/3.png", Texture.class);
+        assetManager.load("img/4.png", Texture.class);
+        assetManager.load("img/5.png", Texture.class);
+        assetManager.load("muz/1.mp3", Music.class  );
     }
 
 
-    public void create () {
+    public GDXLoadingBar () {
         batch = new SpriteBatch();
         assetManager = new AssetManager();
         this.loadAssets();
-        img = assetManager.get("img/pBackground.png", Texture.class);
         loadingBarBackground = assetManager.get("img/pBarBack.png", Texture.class);
         loadingBarProgress = assetManager.get("img/pBarLoading.png",Texture.class);
 
-        // bar width 489px = Start 20px Body 449px End 20px
-        loadingBarProgressStart = new TextureRegion(loadingBarProgress, 0, 0, 20, loadingBarProgress.getHeight());
-        loadingBarProgressBody = new TextureRegion(loadingBarProgress, 20, 0, 449,loadingBarProgress.getHeight());
-        loadingBarProgressEnd = new TextureRegion(loadingBarProgress, 20+449, 0, 20,loadingBarProgress.getHeight());
+        lbb = new Sprite(loadingBarBackground, Gdx.graphics.getWidth(),loadingBarBackground.getHeight());
+        lbp = new Sprite(loadingBarProgress, Gdx.graphics.getWidth(),loadingBarProgress.getHeight());
 
 
-        assetManager.finishLoading();
-
-        synchronized (assetManager) {
-                for (int i = 0; i < img1.length; i++) {
-
-                   img1[i] = assetManager.get("img/" + (i + 1) + ".png", Texture.class);
-                }
-        }
-
-
-
+        // Загрузка в фоне
+        this.loadAssets1();
     }
 
+    public void init() {
+        for(int i = 0; i < MAX; i++) img1[i] = assetManager.get("img/"+i+".png", Texture.class);
+        music = assetManager.get("muz/1.mp3", Music.class);
+    }
+    public void loading() {
+        if (assetManager.update()) isLoaded = true;
+        else isLoaded = false;
+
+        if(isLoaded) {
+            init();
+            music.play();
+            music.setVolume(0.3f);
+            isLoaded = false;
+            isInit = true;
+        }
+    }
 
     public void render () {
-        batch.begin();
-
-        if (assetManager.update()) {
-            batch.draw(img,100, 100);
-            batch.draw(img1[0],200, 100);
+        loading();
+        if(isInit) {
+            batch.begin();
+            for (int i = 0; i < MAX; i++) batch.draw(img1[i],i*100,0);
+            batch.end();
         }
 
-
-        int initialPosX = 40;
-        int initialPosY =19;
-
-        batch.draw(loadingBarBackground,
-                initialPosX,
-                initialPosY);
-
-        batch.draw(loadingBarProgressStart,
-                initialPosX,
-                initialPosY);
-        batch.draw(loadingBarProgressBody,
-                initialPosX+loadingBarProgressStart.getRegionWidth(),
-                initialPosY,
-                loadingBarProgressBody.getRegionWidth()*assetManager.getProgress(),
-                loadingBarProgressBody.getRegionHeight());
-        batch.draw(loadingBarProgressEnd,
-                initialPosX+loadingBarProgressStart.getRegionWidth()+loadingBarProgressBody.getRegionWidth()*assetManager.getProgress(),
-                initialPosY);
+        batch.begin();
+        batch.draw(lbb, 0, 0,
+                lbb.getWidth(), lbb.getHeight());
+        batch.draw(lbp, 0, 0,
+                (assetManager.getProgress()*lbp.getWidth()), lbp.getHeight());
         batch.end();
     }
-
     public void dispose () {
         batch.dispose();
-        img.dispose();
+        loadingBarBackground.dispose();
+        loadingBarProgress.dispose();
+        for (int i = 0; i < MAX; i++) img1[i].dispose();
+        music.dispose();
         assetManager.dispose();
     }
 }

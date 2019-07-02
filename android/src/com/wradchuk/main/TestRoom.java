@@ -47,20 +47,32 @@ public class TestRoom extends PatchedAndroidApplication implements ApplicationLi
         environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
         environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
 
-        cam = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        cam.position.set(1f, 1f, 1f);
+        cam = new PerspectiveCamera(45, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        cam.position.set(300f, 0f, 300f);
         cam.lookAt(0,0,0);
-        cam.near = 1f;
-        cam.far = 300f;
+        cam.near = 0.01f;
+        cam.far = 3000f;
         cam.update();
 
         camController = new CameraInputController(cam);
         Gdx.input.setInputProcessor(camController);
 
-        model = Debug.loadModelG3D("Models/watermelon.g3db");
+       // model = Debug.loadModelG3D("Models/watermelon.g3db");
+        model = Debug.loadModelG3D("test/model.g3db");
         instances = new ModelInstance(model);
+        Debug.debug("isEm: "+instances.animations.first().id);
         controller = new AnimationController(instances);
-        controller.setAnimation("name_animation");
+       controller.setAnimation("mixamo.com", -1, new AnimationController.AnimationListener() {
+           @Override
+           public void onEnd(AnimationController.AnimationDesc animation) {
+               Debug.debug("onEnd");
+           }
+
+           @Override
+           public void onLoop(AnimationController.AnimationDesc animation) {
+               Debug.debug("onLoop");
+           }
+       });
     }
     @Override
     public void resize(int width, int height) {

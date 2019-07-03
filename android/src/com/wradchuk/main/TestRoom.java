@@ -57,7 +57,7 @@ public class TestRoom extends PatchedAndroidApplication implements ApplicationLi
         camController = new CameraInputController(cam);
         Gdx.input.setInputProcessor(camController);
 
-        model = Debug.loadModelG3D("Models/room.g3db");
+        model = Debug.loadModelG3D("Models/room.obj");
         instances = new ModelInstance(model);
         //Debug.debug("isEm: "+instances.animations.first().id);
   //   controller = new AnimationController(instances);

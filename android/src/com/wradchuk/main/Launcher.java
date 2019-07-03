@@ -1,5 +1,6 @@
 package com.wradchuk.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -37,21 +38,23 @@ public class Launcher extends PatchedAndroidApplication implements ApplicationLi
 				//context.startActivity(new Intent(context, myVideoPlayer.getClass()));
 				//context.finish();
 
-				//TestRoom testRoom = new TestRoom();
-				//context.startActivity(new Intent(context, testRoom.getClass()));
-				//context.finish();
+				TestRoom testRoom = new TestRoom();
+				context.startActivity(new Intent(context, testRoom.getClass()));
+				context.finish();
 			}
 		});
 
-		loadingBar = new GDXLoadingBar();
+		//loadingBar = new GDXLoadingBar();
 	}
 	@Override public    void  render() {
 		Gdx.gl20.glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-		loadingBar.render();
+		//loadingBar.render();
 	}
 
-	@Override public    void dispose() {loadingBar.dispose();}
+	@Override public    void dispose() {
+		//loadingBar.dispose();
+	}
 	@Override public    void  resize(int width, int height) {}
 	@Override public    void   pause() {}
 	@Override public    void  resume() {}

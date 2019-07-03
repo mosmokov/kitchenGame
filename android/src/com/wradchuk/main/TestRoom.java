@@ -26,7 +26,7 @@ public class TestRoom extends PatchedAndroidApplication implements ApplicationLi
     public ModelBatch modelBatch  ;
     public Model model;
     public ModelInstance instances;
-    public AnimationController controller;;
+    //public AnimationController controller;
 
 
     @Override protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +48,7 @@ public class TestRoom extends PatchedAndroidApplication implements ApplicationLi
         environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
 
         cam = new PerspectiveCamera(45, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        cam.position.set(300f, 0f, 300f);
+        cam.position.set(0, 0, 0);
         cam.lookAt(0,0,0);
         cam.near = 0.01f;
         cam.far = 3000f;
@@ -57,22 +57,21 @@ public class TestRoom extends PatchedAndroidApplication implements ApplicationLi
         camController = new CameraInputController(cam);
         Gdx.input.setInputProcessor(camController);
 
-       // model = Debug.loadModelG3D("Models/watermelon.g3db");
-        model = Debug.loadModelG3D("test/model.g3db");
+        model = Debug.loadModelG3D("Models/room.g3db");
         instances = new ModelInstance(model);
-        Debug.debug("isEm: "+instances.animations.first().id);
-        controller = new AnimationController(instances);
-       controller.setAnimation("mixamo.com", -1, new AnimationController.AnimationListener() {
-           @Override
-           public void onEnd(AnimationController.AnimationDesc animation) {
-               Debug.debug("onEnd");
-           }
+        //Debug.debug("isEm: "+instances.animations.first().id);
+  //   controller = new AnimationController(instances);
+  //   controller.setAnimation("watermelon", -1, new AnimationController.AnimationListener() {
+  //      @Override
+  //      public void onEnd(AnimationController.AnimationDesc animation) {
+  //          Debug.debug("onEnd");
+  //      }
 
-           @Override
-           public void onLoop(AnimationController.AnimationDesc animation) {
-               Debug.debug("onLoop");
-           }
-       });
+  //      @Override
+  //      public void onLoop(AnimationController.AnimationDesc animation) {
+  //          Debug.debug("onLoop");
+  //      }
+  //  });
     }
     @Override
     public void resize(int width, int height) {
@@ -83,8 +82,10 @@ public class TestRoom extends PatchedAndroidApplication implements ApplicationLi
         Gdx.gl20.glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
+        Debug.debug("X: " + cam.position.x + " Y: " +cam.position.y+ " Z: " + cam.position.z);
+
         camController.update();
-        controller.update(Debug.getTime());
+        //controller.update(Debug.getTime());
 
         modelBatch.begin(cam);
         modelBatch.render(instances, environment);

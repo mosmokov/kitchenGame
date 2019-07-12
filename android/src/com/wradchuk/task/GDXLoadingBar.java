@@ -43,13 +43,13 @@ public class GDXLoadingBar {
 
     private void loadAssets() {
         assetManager.load("img/no-internet-connection.jpg"   , Texture.class);
-        assetManager.load("img/pBackground.png"   , Texture.class);
+        assetManager.load("img/pBackground.jpg"   , Texture.class);
         assetManager.load("img/pBarBack.png"   , Texture.class);
         assetManager.load("img/pBarLoading.png", Texture.class);
         assetManager.finishLoading();
 
         no_internet = assetManager.get("img/no-internet-connection.jpg", Texture.class);
-        loadingBackground = assetManager.get("img/pBackground.png", Texture.class);
+        loadingBackground = assetManager.get("img/pBackground.jpg", Texture.class);
         loadingBarBackground = assetManager.get("img/pBarBack.png", Texture.class);
         loadingBarProgress = assetManager.get("img/pBarLoading.png",Texture.class);
 

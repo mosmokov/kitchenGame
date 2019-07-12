@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--suppress LibGDXOpenGLVersion -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.wradchuk" >
+    package="com.wradchuk">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <permission android:name="android.permission.INTERNET" />
     <permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <permission android:name="android.permission.UPDATE_DEVICE_STATS" />
+    <permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <permission android:name="android.permission.UPDATE_DEVICE_STATS" />
+    <permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-feature android:glEsVersion="0x00020000"/>
 
     <application
         android:allowBackup="true"
@@ -27,24 +30,29 @@
         android:isGame="true"
         android:label="@string/app_name"
         android:theme="@style/GdxTheme"
-        tools:targetApi="28"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:targetApi="28">
+
         <activity
-            android:name="com.wradchuk.main.Launcher"
+            android:name=".main.Launcher"
+            android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenSize|screenLayout"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenSize|screenLayout">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".game.MyVideoPlayer"
-            android:screenOrientation="landscape"
-            android:lockTaskMode="never"/>
-        <activity android:name=".main.TestRoom"
-            android:screenOrientation="portrait"
-            android:lockTaskMode="never"/>
+        <activity
+            android:name=".game.MyVideoPlayer"
+            android:lockTaskMode="never"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".game.TestRoom"
+            android:lockTaskMode="never"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

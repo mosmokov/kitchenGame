@@ -1,5 +1,9 @@
 package com.wradchuk.utils;
 
+import android.annotation.SuppressLint;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
@@ -11,10 +15,30 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.loader.ObjLoader;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Disposable;
+import com.wradchuk.main.Launcher;
+
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import org.apache.commons.io.IOUtils;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.charset.Charset;
 
 public class Debug {
-    private static final String TEG = "kitchen: ";
+    private static final String TEG = "KITCHEN ";
+    public static final String HOST = "https://pointsales.buisness-app.ru/kitchen/";
+    public static WifiManager wifi;
     public static void  debug(String _output) { Gdx.app.log(TEG, _output);}
     public static void  debug(boolean _output) {Gdx.app.log(TEG, ""+_output);}
     public static void  debug(int _output) {Gdx.app.log(TEG, ""+_output);}
@@ -61,5 +85,75 @@ public class Debug {
         assets.finishLoading();
         Model model = assets.get(Gdx.files.internal(_model_file).path(), Model.class);
         return model;
+    }
+    public static String local() {
+        return Gdx.files.getLocalStoragePath();
+    }
+    public static void downloadURL(String f_name, String f_url) {
+        int count;
+        try {
+            URL url = new URL(f_url);
+            URLConnection connection = url.openConnection();
+            connection.connect();
+            InputStream input = new BufferedInputStream(url.openStream(), 8192);
+            OutputStream output = new FileOutputStream(Debug.local().concat(f_name));
+            byte data[] = new byte[1024];
+            long total = 0;
+
+            while ((count = input.read(data)) != -1) {
+                total += count;
+                output.write(data, 0, count);
+            }
+            Debug.debug(total);
+            output.flush();
+            output.close();
+            input.close();
+        }catch(Exception e) {
+            Debug.debug("Error: " + e.getMessage());
+        }
+    }
+    public static JSONObject loadJSON(File _file) throws JSONException {
+        JSONObject result = null;
+        try {
+            InputStream is = new FileInputStream(_file);
+            String jsonTxt = IOUtils.toString(is, Charset.forName("UTF-8"));
+            result = new JSONObject(jsonTxt);
+        } catch (FileNotFoundException ex) {  Debug.debug(ex.getMessage());
+        } catch (IOException ex) { Debug.debug(ex.getMessage()); }
+
+        return result;
+    }
+    public static boolean isHost(String host) {
+        if(host.equals(HOST)) return true;
+        else return false;
+    }
+    public static JSONObject loadJSON(String file) {
+        JSONObject result = null;
+        try {
+            result = Debug.loadJSON(new File(file));
+        } catch (JSONException e) {
+            Debug.debug(e.getMessage());
+        }
+        return result;
+    }
+    @SuppressLint("WifiManagerLeak")
+    public static int getWifiState() {
+        wifi =(WifiManager) Launcher.context.getSystemService(Launcher.context.WIFI_SERVICE);
+        return wifi.getWifiState();
+    }
+    public static boolean isOnline() {
+        boolean result = false;
+        ConnectivityManager mgr = (ConnectivityManager) Launcher.context.getSystemService(Launcher.context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = mgr.getActiveNetworkInfo();
+        if (netInfo != null)
+            if (netInfo.isConnected()) result = true;
+            else result = false;
+        else result = false;
+
+        return result;
+    }
+    public static void dispose(Disposable _disposable) {
+        if(_disposable!=null) _disposable.dispose();
+
     }
 }

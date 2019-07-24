@@ -17,6 +17,8 @@ public class DownloadFileFromURL extends AsyncTask<String, Integer, String> {
     private JSONObject header;
     private Vector<String> file_name = new Vector();
     private Vector<String> file_url  = new Vector();
+                    //Vector<String> file_name = new Vector<String>();
+                    //Vector<String> file_url = new Vector<String>();
     public int FILE_COUNT = 0;
     public int progress = 0;
     private int step = 0;
@@ -29,6 +31,8 @@ public class DownloadFileFromURL extends AsyncTask<String, Integer, String> {
         Preload preload = new Preload();
         preload.execute("https://pointsales.buisness-app.ru/kitchen/file/header.json");
     }
+
+    @SuppressWarnings("unchecked")
     public void addFileToLoader(JSONObject jsonObject) {
 
         if(!Debug.isHost(JSONUtil.getValue(header, "host"))) {

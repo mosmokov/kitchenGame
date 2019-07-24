@@ -1,9 +1,9 @@
 package com.wradchuk.task;
 
+import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
-import com.wradchuk.Manifest;
 import com.wradchuk.utils.PatchedAndroidApplication;
 
 public class PlatformManager {

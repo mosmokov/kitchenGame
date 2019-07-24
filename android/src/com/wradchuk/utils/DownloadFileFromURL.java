@@ -23,19 +23,15 @@ public class DownloadFileFromURL extends AsyncTask<String, Integer, String> {
     private String ver = "";
     private FileHandle verf = null;
 
-    private Preload preload;
-
-
-
 
     public DownloadFileFromURL() {}
     public void preloaded() {
-        preload = new Preload();
+        Preload preload = new Preload();
         preload.execute("https://pointsales.buisness-app.ru/kitchen/file/header.json");
     }
     public void addFileToLoader(JSONObject jsonObject) {
 
-        if(Debug.isHost(JSONUtil.getValue(header, "host"))!=true) {
+        if(!Debug.isHost(JSONUtil.getValue(header, "host"))) {
             Debug.debug("Проблема хоста");
             System.exit(1);
         }
@@ -53,9 +49,9 @@ public class DownloadFileFromURL extends AsyncTask<String, Integer, String> {
 
         verf = Gdx.files.local("ver.txt");
 
-        while (isHeader!=true)
+        while (!isHeader)
         {
-            if(Gdx.files.local("header.json").exists()==true && Gdx.files.local("ver.txt").exists()==true)
+            if(Gdx.files.local("header.json").exists() && Gdx.files.local("ver.txt").exists())
             {
                 ver = verf.readString();
                 isHeader = true;
@@ -78,7 +74,7 @@ public class DownloadFileFromURL extends AsyncTask<String, Integer, String> {
 
             for(int i = 0; i < file_name.size(); i++) {
                 if (!Gdx.files.local(file_name.elementAt(i)).exists() || !ver.equals(JSONUtil.getValue(header, "version"))) {
-                    Debug.downloadURL(file_name.elementAt(i), Debug.HOST.concat(file_url.elementAt(i)));
+                    Debug.downloadURL(file_name.elementAt(i), f_url[0].concat(file_url.elementAt(i)));
                     this.progress = this.progress + step;
                     publishProgress(this.progress);
                 }

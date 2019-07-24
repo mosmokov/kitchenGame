@@ -4,5 +4,8 @@
     <string name="app_name">kitchenGame</string>
     <string name="title_activity_my_video_player">MyVideoPlayer</string>
     <string name="button">Жми меня</string>
+    <string name="textview">Тест</string>
+    <string name="default_web_client_id">AIzaSyAYLi_CzCVa_e2zODRVGzxp27dxES9C5nc </string>
+
 
 </resources>

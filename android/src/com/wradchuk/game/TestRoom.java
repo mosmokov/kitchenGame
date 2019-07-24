@@ -31,6 +31,7 @@ public class TestRoom extends PatchedAndroidApplication implements ApplicationLi
     public ModelInstance instances;
     public AnimationController controller;
 
+
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();

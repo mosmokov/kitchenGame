@@ -47,13 +47,13 @@ public class Launcher extends PatchedAndroidApplication implements ApplicationLi
 				//context.startActivity(new Intent(context, myVideoPlayer.getClass()));
 				//context.finish();
 
-				//TestRoom testRoom = new TestRoom();
-				//context.startActivity(new Intent(context, testRoom.getClass()));
-				//context.finish();
-
-				MyGoogle myGoogle = new MyGoogle();
-				context.startActivity(new Intent(context, myGoogle.getClass()));
+				TestRoom testRoom = new TestRoom();
+				context.startActivity(new Intent(context, testRoom.getClass()));
 				context.finish();
+
+				//MyGoogle myGoogle = new MyGoogle();
+				//context.startActivity(new Intent(context, myGoogle.getClass()));
+				//context.finish();
 			}
 		});
 

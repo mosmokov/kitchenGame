@@ -16,6 +16,7 @@ public class TestRoom extends PatchedAndroidApplication implements ApplicationLi
     public TextureAnimation wTextureAnimation;
     public TextureAnimation wTextureAnimation1;
 
+
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();

@@ -5,7 +5,15 @@
     <string name="title_activity_my_video_player">MyVideoPlayer</string>
     <string name="button">Жми меня</string>
     <string name="textview">Тест</string>
-    <string name="default_web_client_id">AIzaSyAYLi_CzCVa_e2zODRVGzxp27dxES9C5nc </string>
+
+    <string name="api">AIzaSyBsoT3qFXR6hImHICyKEnXyxXiicSZDlnI</string>
+
+    <string name="google_photo">PHOTO</string>
+    <string name="google_id">ID</string>
+    <string name="google_email">EMAIL</string>
+    <string name="google_fullname">FULLNAME</string>
+    <string name="google_firstname">FIRSTNAME</string>
+    <string name="google_lastname">LASTNAME</string>
 
 
 </resources>

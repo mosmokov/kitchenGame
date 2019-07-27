@@ -4,13 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -88,10 +88,16 @@ public class MyGoogle extends Activity {
 
         if (user != null) {
             Debug.debug("GOOD!!!");
-            
+
+            Debug.debug("uri "+ user.getEmail());
             Uri uri = user.getPhotoUrl();
-            new DownloadImageTask(google_photo).execute(uri.toString());
-            
+            if(uri == null)
+            {
+                google_photo.setImageResource(R.drawable.ic_launcher);
+            }
+            else
+                new DownloadImageTask(google_photo).execute(uri.toString());
+
             google_id.setText("ID: "+user.getId());
             google_email.setText("EMAIL: "+user.getEmail());
             google_fullname.setText("FULLNAME: "+user.getDisplayName());

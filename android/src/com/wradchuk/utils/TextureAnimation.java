@@ -56,5 +56,10 @@ public class TextureAnimation {
         _batch.draw(currentFrame, _x, _y); // Draw current frame at (50, 50)
         _batch.end();
     }
-
+    public float getX() {
+        return currentFrame.getRegionWidth() / 2;
+    }
+    public float getY() {
+        return currentFrame.getRegionHeight() / 2;
+    }
 }

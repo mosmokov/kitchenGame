@@ -1,4 +1,4 @@
-package com.wradchuk.game;
+package com.wradchuk.activity;
 
 import android.app.Activity;
 import android.net.Uri;

@@ -59,10 +59,16 @@ project(":desktop") {
     }
 }
 
+project(':vksdk_library')
+
 project(":android") {
     apply plugin: "android"
 
-    configurations { natives }
+    configurations {
+        implementation {
+            exclude group: 'com.android.support', module: 'support-v4'
+        }
+        natives }
 
     dependencies {
         implementation project(":core")
@@ -81,7 +87,8 @@ project(":android") {
         implementation "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
         implementation "com.badlogicgames.gdx:gdx-controllers-android:$gdxVersion"
         implementation "es.e-ucm.com.badlogicgames.gdx:gdx-video-android:0.0.1-SNAPSHOT"
-        
+
+
     }
 }
 

@@ -1,4 +1,4 @@
-package com.wradchuk.utils;
+package com.wradchuk.task;
 
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.wradchuk.main.Launcher;
+import com.wradchuk.utils.Debug;
+import com.wradchuk.utils.JSONUtil;
 
 import org.json.JSONObject;
 import java.util.Vector;
@@ -17,8 +19,6 @@ public class DownloadFileFromURL extends AsyncTask<String, Integer, String> {
     private JSONObject header;
     private Vector<String> file_name = new Vector();
     private Vector<String> file_url  = new Vector();
-                    //Vector<String> file_name = new Vector<String>();
-                    //Vector<String> file_url = new Vector<String>();
     public int FILE_COUNT = 0;
     public int progress = 0;
     private int step = 0;

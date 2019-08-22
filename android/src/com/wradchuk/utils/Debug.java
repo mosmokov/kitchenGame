@@ -1,6 +1,8 @@
 package com.wradchuk.utils;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
@@ -49,14 +51,15 @@ public class Debug {
     }
     public static int   getFPS(){return Gdx.graphics.getFramesPerSecond();}
     public static float getTime() { return Gdx.graphics.getDeltaTime();}
-    public static BitmapFont createFonts(String _font) {
+    public static BitmapFont createFonts(String _font, int _size) {
         BitmapFont font;
         String FONT_CHARACTERS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя abcdefghijklmnopqrstuvwxyz АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ ABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890.:,;'\"(!?)+-*/=";
         FileHandle fontFile = Gdx.files.internal(_font);
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(fontFile);
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.characters = FONT_CHARACTERS;
-        parameter.size = 22;
+        parameter.size = _size;
+
         parameter.color.add(Color.BLACK);
 
         font = generator.generateFont(parameter);
@@ -156,4 +159,9 @@ public class Debug {
         if(_disposable!=null) _disposable.dispose();
 
     }
+    public static void Intent(Object _object, Activity _context, boolean _finish) {
+        _context.startActivity(new Intent(_context, _object.getClass()));
+        if(_finish) _context.finish();
+    }
+
 }

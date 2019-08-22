@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.wradchuk.utils.Debug;
-import com.wradchuk.utils.DownloadFileFromURL;
 import com.wradchuk.utils.PatchedAndroidApplication;
 
 public class GDXLoadingBar {

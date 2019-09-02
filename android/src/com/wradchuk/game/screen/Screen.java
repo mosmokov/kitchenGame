@@ -2,7 +2,6 @@ package com.wradchuk.game.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -24,8 +23,6 @@ public class Screen {
     public int fx, fy                  ; // финальная позиция экрана
     public int cx              =      0; // Глобальная координата X для объектов (текущая)
     public int cy              =      0; // Глобальная координата Y для объектов (текущая)
-    public int nx              =      0; // Глобальная координата X для объектов (будущая)
-    public int ny              =      0; // Глобальная координата Y для объектов (будущая)
     public SpriteBatch batch           ; // Холст для отрисовки объектов
     public Texture background          ; // Фоновое изображение
 
@@ -33,7 +30,6 @@ public class Screen {
     public Skin skin;
     public Stage stage;
     public InputMultiplexer multiplexer;
-    public boolean moved = false;
 
 
     /***
@@ -56,6 +52,7 @@ public class Screen {
         setPos(_x,_y);
         fx = _x; fy = _y;
         multiplexer = _multiplexer;
+        multiplexer.addProcessor(stage);
     }
     /***
      * Освобождает все ресурсы этого объекта.
@@ -65,11 +62,83 @@ public class Screen {
         Debug.dispose(background);
         Debug.dispose(stage);
     }
+
+    boolean l_g_move = false; // детектор движения
+
+    public int moveTo(int a, int b) {
+        double res;
+        if(a==b) res = b;
+        else {
+            l_g_move = true;
+            double h = (((double)b-(double)a)/(double)66);
+            if(Math.abs(h)<1) {
+                if(h>0) h = 1;
+                else h = -1;
+            }
+            res = a+h;
+        }
+        return (int) res;
+    }
+
     /***
      * Рисует заданный вами фон
      */
-    public void drawBackground(int _id) {
-        move(_id);
+    public void drawBackground() {
+
+        l_g_move = false; // Проверяем есть ли движения
+
+        if(MainMenu.SET_SCREEN==0) { // ВИТРИНА
+            MainMenu.screens[1].cx= // Убераем меню ФОРТУНА
+                    moveTo(MainMenu.screens[1].cx, MainMenu.screens[1].fx);
+
+            MainMenu.screens[2].cx= // Убераем меню СТАРТ_ИГРЫ
+                    moveTo(MainMenu.screens[2].cx, MainMenu.screens[2].fx);
+
+            MainMenu.screens[3].cy= // Убераем меню РЕЦЕПТЫ
+                    moveTo(MainMenu.screens[3].cy, MainMenu.screens[3].fy);
+
+        }
+        if(MainMenu.SET_SCREEN==1) { // ВИТРИНА
+
+            MainMenu.screens[1].cx= // Открываем меню ФОРТУНА
+                    moveTo(MainMenu.screens[1].cx,
+                            MainMenu.screens[1].fx+WIDTH);
+
+            MainMenu.screens[2].cx= // Убераем меню СТАРТ_ИГРЫ
+                    moveTo(MainMenu.screens[2].cx, MainMenu.screens[2].fx);
+
+            MainMenu.screens[3].cy= // Убераем меню РЕЦЕПТЫ
+                    moveTo(MainMenu.screens[3].cy, MainMenu.screens[3].fy);
+
+        }
+        if(MainMenu.SET_SCREEN==2) { // ВИТРИНА
+
+            MainMenu.screens[1].cx= // Убираем меню ФОРТУНА
+                    moveTo(MainMenu.screens[1].cx,
+                            MainMenu.screens[1].fx);
+
+            MainMenu.screens[2].cx= // Открываем меню СТАРТ_ИГРЫ
+                    moveTo(MainMenu.screens[2].cx, MainMenu.screens[2].fx-WIDTH);
+
+            MainMenu.screens[3].cy= // Убераем меню РЕЦЕПТЫ
+                    moveTo(MainMenu.screens[3].cy, MainMenu.screens[3].fy);
+
+        }
+        if(MainMenu.SET_SCREEN==3) { // ВИТРИНА
+
+            MainMenu.screens[1].cx= // Убираем меню ФОРТУНА
+                    moveTo(MainMenu.screens[1].cx,
+                            MainMenu.screens[1].fx);
+
+            MainMenu.screens[2].cx= // Убираем меню СТАРТ_ИГРЫ
+                    moveTo(MainMenu.screens[2].cx, MainMenu.screens[2].fx);
+
+            MainMenu.screens[3].cy= // Открываем меню РЕЦЕПТЫ
+                    moveTo(MainMenu.screens[3].cy, MainMenu.screens[3].fy+HEIGHT);
+
+        }
+
+        if(!l_g_move) MainMenu.G_MOVE = false; // если нет движений включаем кнопки
     }
     /***
      * Установить начальные координаты экрана
@@ -80,36 +149,6 @@ public class Screen {
         cx = _x; cy = _y;
     }
     /***
-     * Узнать глобальную координату экрана по X
-     * @return Глобальная координата X для объектов (текущая)
-     */
-    public int getX() {
-        return cx;
-    }
-    /***
-     * Узнать глобальную координату экрана по Y
-     * @return Глобальная координата Y для объектов (текущая)
-     */
-    public int getY() {
-        return cy;
-    }
-    /***
-     * Сдвинуть экран по координате X
-     * @param _step на сколько сдвинуть
-     */
-    public void moveX(int _step) {
-        nx = getX() + _step;
-        setPos(nx, ny);
-    }
-    /***
-     * Сдвинуть экран по координате Y
-     * @param _step на сколько сдвинуть
-     */
-    public void moveY(int _step) {
-        ny = getY() + _step;
-        setPos(nx, ny);
-    }
-    /***
      *  Растягивает фоновое изображение
      *  по ширене и высоте экрана
      * @param _img путь к изображению
@@ -118,14 +157,7 @@ public class Screen {
      * @return вернёт текстуру для фона
      */
     private Texture setBackground(String _img, int _width, int _height) {
-        Pixmap pixmap = new Pixmap(Gdx.files.internal(_img));
-        Pixmap full = new Pixmap(_width, _height, pixmap.getFormat());
-        full.drawPixmap(pixmap, 0, 0, pixmap.getWidth(), pixmap.getHeight(),
-                0, 0, full.getWidth(), full.getHeight() );
-        Texture result = new Texture(full);
-        Debug.dispose(pixmap);
-        Debug.dispose(full);
-        return result;
+        return Debug.setBackground(_img, _width, _height);
     }
 
     public TextureRegionDrawable createTexture(String _file) {
@@ -154,40 +186,34 @@ public class Screen {
     public void labelSetPos(Label _label, float _x, float _y) {
         _label.setPosition(cx+_x, cy+_y);
     }
-
-
-    public boolean isListen(int _id) {
-        if(_id==SET_SCREEN) {
-          // multiplexer.addProcessor(stage);
-            return true;
-        } else {
-           // multiplexer.removeProcessor(stage);
-            return false;
-        }
-    }
-    public void move(int _id) {
-        isListen(_id);
-    }
-
-    public void listenerButton(final int id, ImageButton _button, final int _screen_id) {
+    public void listenerButton(ImageButton _button, final int _screen_id) {
 
         _button.addListener(new InputListener() {
             @Override public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                MainMenu.SET_SCREEN = _screen_id;
-                MainMenu.screens[id].moved = true;
+
+                Debug.debug(MainMenu.SET_SCREEN +" a "+_screen_id);
+
+            if(!MainMenu.G_MOVE) {
+                MainMenu.G_MOVE=true;
+                 if (MainMenu.SET_SCREEN == 1 && _screen_id == 2) MainMenu.SET_SCREEN = 0;
+            else if (MainMenu.SET_SCREEN == 1 && _screen_id == 3) MainMenu.SET_SCREEN = 1;
+            else if (MainMenu.SET_SCREEN == 2 && _screen_id == 1) MainMenu.SET_SCREEN = 0;
+            else if (MainMenu.SET_SCREEN == 2 && _screen_id == 3) MainMenu.SET_SCREEN = 2;
+            else if (MainMenu.SET_SCREEN == 3 && _screen_id == 1) MainMenu.SET_SCREEN = 3;
+            else if (MainMenu.SET_SCREEN == 3 && _screen_id == 2) MainMenu.SET_SCREEN = 3;
+            else if (MainMenu.SET_SCREEN == 1 && _screen_id == 1) MainMenu.SET_SCREEN = 0;
+            else if (MainMenu.SET_SCREEN == 2 && _screen_id == 2) MainMenu.SET_SCREEN = 0;
+            else if (MainMenu.SET_SCREEN == 3 && _screen_id == 3) MainMenu.SET_SCREEN = 0;
+            else MainMenu.SET_SCREEN = _screen_id;
+            }
+
+        Debug.debug(MainMenu.SET_SCREEN +" b "+_screen_id);
+
             }
             @Override public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                MainMenu.PREV_SCREEN = MainMenu.SET_SCREEN;
+
                 return true; }
         });
-    }
-    public void stop() {}
-
-    public void addProcessor() {
-        multiplexer.addProcessor(stage);
-    }
-    public void removeProcessor() {
-        multiplexer.removeProcessor(stage);
     }
 
 }

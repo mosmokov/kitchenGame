@@ -48,6 +48,11 @@
             android:lockTaskMode="never"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".game.MainGame"
+            android:lockTaskMode="never"
+            android:screenOrientation="portrait" />
+
 
 
         <meta-data

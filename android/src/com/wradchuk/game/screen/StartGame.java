@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 public class StartGame extends Screen {
 
-    Label label;
+    public Label label;
     ImageButton go_showcase;
 
     /***
@@ -23,17 +23,15 @@ public class StartGame extends Screen {
 
         go_showcase = createImageButton("img/bt/off.png", "img/bt/on.png");
         buttonSetPos(go_showcase, 0, (HEIGHT/2)-(go_showcase.getHeight()/2));
-        listenerButton(0, go_showcase, 0);
-
-
+        listenerButton(go_showcase, 0);
 
         stage.addActor(label);
         stage.addActor(go_showcase);
-        moved = false;
+
     }
 
-    @Override public void drawBackground(int _id) {
-        super.drawBackground(_id);
+    @Override public void drawBackground() {
+        super.drawBackground();
         batch.begin();
         batch.draw(background, cx, 0);
         batch.end();
@@ -43,22 +41,4 @@ public class StartGame extends Screen {
         go_showcase.clearActions();
     }
 
-
-    @Override public void move(int _id) {
-        super.move(_id);
-        if (isListen(_id)) {
-            if (cx > 0) moveX(-10);
-        } else {
-            if (cx < fx) moveX(10);
-        }
-    }
-
-    @Override public void stop() {
-        super.stop();
-        if(cx == fx || cx == fx-WIDTH) moved = false;
-        else moved = true;
-    }
-
-    @Override public void addProcessor() {super.addProcessor(); }
-    @Override public void removeProcessor() { super.removeProcessor();}
 }

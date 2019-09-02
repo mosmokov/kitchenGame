@@ -12,6 +12,8 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.ModelLoader;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g3d.Model;
@@ -162,6 +164,16 @@ public class Debug {
     public static void Intent(Object _object, Activity _context, boolean _finish) {
         _context.startActivity(new Intent(_context, _object.getClass()));
         if(_finish) _context.finish();
+    }
+    public static Texture setBackground(String _img, int _width, int _height) {
+        Pixmap pixmap = new Pixmap(Gdx.files.internal(_img));
+        Pixmap full = new Pixmap(_width, _height, pixmap.getFormat());
+        full.drawPixmap(pixmap, 0, 0, pixmap.getWidth(), pixmap.getHeight(),
+                0, 0, full.getWidth(), full.getHeight() );
+        Texture result = new Texture(full);
+        Debug.dispose(pixmap);
+        Debug.dispose(full);
+        return result;
     }
 
 }

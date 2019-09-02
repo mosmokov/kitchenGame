@@ -12,7 +12,6 @@ import com.wradchuk.game.screen.Recipes;
 import com.wradchuk.game.screen.Screen;
 import com.wradchuk.game.screen.Showcase;
 import com.wradchuk.game.screen.StartGame;
-import com.wradchuk.utils.Debug;
 import com.wradchuk.utils.PatchedAndroidApplication;
 
 public class MainMenu extends PatchedAndroidApplication implements ApplicationListener {
@@ -23,7 +22,8 @@ public class MainMenu extends PatchedAndroidApplication implements ApplicationLi
     public static Screen[] screens = new Screen[ALL_SCREEN];
     public InputMultiplexer multiplexer; // Слушатель событий
     public static int SET_SCREEN = 0; // 0 1 2 3
-    public static int PREV_SCREEN = 0; // 0 1 2 3
+    public static boolean G_MOVE = false;
+
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,34 +55,12 @@ public class MainMenu extends PatchedAndroidApplication implements ApplicationLi
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clear screen
 
-        test();
-        for(int i = 0; i < ALL_SCREEN; i++) {
-            screens[i].drawBackground(SET_SCREEN);
-            screens[i].stop();
-        }
+        for(int i = 0; i < ALL_SCREEN; i++) screens[i].drawBackground();
+
     }
     @Override public void pause() {}
     @Override public void resume() {}
     @Override public void dispose() {
         for(int i = 0; i < ALL_SCREEN; i++) screens[i].dispose();
-    }
-
-    public void test() {
-        int count = 0;
-
-        for(int i = 0; i < ALL_SCREEN; i++)
-            if(count>0) break;
-            else {
-                if(screens[i].moved) count++;
-            }
-
-
-        Debug.debug("Count:" +count);
-
-        if(count==0)  {
-            screens[PREV_SCREEN].removeProcessor();
-            screens[SET_SCREEN].addProcessor();
-        }
-        else for(int i = 0; i < ALL_SCREEN; i++) screens[i].removeProcessor();
     }
 }

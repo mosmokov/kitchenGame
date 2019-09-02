@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 public class Showcase extends Screen {
 
-    Label label;
+    public Label label;
     ImageButton go_fortune, go_start_game, go_recipes;
 
 
@@ -24,27 +24,25 @@ public class Showcase extends Screen {
 
         go_fortune = createImageButton("img/bt/off.png", "img/bt/on.png");
         buttonSetPos(go_fortune, 0, (HEIGHT/2)-(go_fortune.getHeight()/2));
-        listenerButton(1, go_fortune, 1);
+        listenerButton(go_fortune, 1);
 
         go_start_game = createImageButton("img/bt/off.png", "img/bt/on.png");
         buttonSetPos(go_start_game, WIDTH-go_start_game.getWidth(), (HEIGHT/2)-(go_start_game.getHeight()/2));
-        listenerButton(2, go_start_game, 2);
+        listenerButton(go_start_game, 2);
 
         go_recipes = createImageButton("img/bt/off.png", "img/bt/on.png");
         buttonSetPos(go_recipes, (WIDTH/2)-(go_recipes.getWidth()/2), 0);
-        listenerButton(3, go_recipes, 3);
+        listenerButton(go_recipes, 3);
 
         stage.addActor(label);
         stage.addActor(go_fortune);
         stage.addActor(go_start_game);
         stage.addActor(go_recipes);
-        moved = false;
-
     }
 
 
-    @Override public void drawBackground(int _id) {
-        super.drawBackground(_id);
+    @Override public void drawBackground() {
+        super.drawBackground();
         batch.begin();
         batch.draw(background, cx, 0);
         batch.end();
@@ -61,15 +59,4 @@ public class Showcase extends Screen {
     }
 
 
-    @Override public void move(int _id) {
-        super.move(_id);
-    }
-
-    @Override public void stop() {
-        super.stop();
-        moved = false;
-    }
-
-    @Override public void addProcessor() {super.addProcessor(); }
-    @Override public void removeProcessor() { super.removeProcessor();}
 }

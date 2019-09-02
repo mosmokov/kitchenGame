@@ -62,4 +62,11 @@ public class TextureAnimation {
     public float getY() {
         return currentFrame.getRegionHeight() / 2;
     }
+
+    public int getWidth() {
+        return currentFrame.getRegionWidth();
+    }
+    public int getHeight() {
+        return currentFrame.getRegionHeight();
+    }
 }

@@ -7,7 +7,7 @@ import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.wradchuk.game.MainMenu;
+import com.wradchuk.game.MainGame;
 import com.wradchuk.manager.PlatformManager;
 import com.wradchuk.utils.Debug;
 import com.wradchuk.utils.PatchedAndroidApplication;
@@ -57,13 +57,17 @@ public class Launcher extends PatchedAndroidApplication implements ApplicationLi
 	}
 	@Override public    void  resize(int width, int height) {}
 	@Override public    void   pause() {}
+
+
+
 	@Override public    void  resume() {}
 	private void login() {
 		context.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				//Debug.Intent(new Login(), context, true);
-				Debug.Intent(new MainMenu(), context, true);
+				//Debug.Intent(new MainMenu(), context, true);
+				Debug.Intent(new MainGame(), context, true);
 			}
 		});
 	}

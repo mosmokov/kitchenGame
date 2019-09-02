@@ -5,11 +5,10 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.wradchuk.utils.Debug;
 
 public class Recipes extends Screen {
 
-    Label label;
+    public Label label;
     ImageButton go_showcase;
 
     /***
@@ -25,15 +24,14 @@ public class Recipes extends Screen {
 
         go_showcase = createImageButton("img/bt/off.png", "img/bt/on.png");
         buttonSetPos(go_showcase, (WIDTH/2)-(go_showcase.getWidth()/2), 0);
-        listenerButton(0, go_showcase, 0);
+        listenerButton(go_showcase, 0);
 
         stage.addActor(label);
         stage.addActor(go_showcase);
-        moved = false;
     }
 
-    @Override public void drawBackground(int _id) {
-        super.drawBackground(_id);
+    @Override public void drawBackground() {
+        super.drawBackground();
         batch.begin();
         batch.draw(background, 0, cy);
         batch.end();
@@ -43,24 +41,4 @@ public class Recipes extends Screen {
         go_showcase.clearActions();
     }
 
-
-    @Override public void move(int _id) {
-        super.move(_id);
-        if (isListen(_id)) {
-            if (cy<0) moveY(8);
-
-        } else {
-            if (cy > fy) moveY(-8);
-        }
-    }
-
-    @Override public void stop() {
-        super.stop();
-        Debug.debug(cy + " " + fy);
-        if(cy == fy || cy == fy + HEIGHT) moved = false;
-        else moved = true;
-    }
-
-    @Override public void addProcessor() {super.addProcessor(); }
-    @Override public void removeProcessor() { super.removeProcessor();}
 }

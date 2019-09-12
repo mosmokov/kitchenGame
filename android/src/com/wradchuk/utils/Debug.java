@@ -12,6 +12,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.ModelLoader;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -37,12 +38,15 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
 public class Debug {
     private static final String TEG = "KITCHEN ";
     public static final String HOST = "https://pointsales.buisness-app.ru/kitchen/";
     public static WifiManager wifi;
+
+
     public static void  debug(String _output) { Gdx.app.log(TEG, _output);}
     public static void  debug(boolean _output) {Gdx.app.log(TEG, ""+_output);}
     public static void  debug(int _output) {Gdx.app.log(TEG, ""+_output);}
@@ -51,8 +55,18 @@ public class Debug {
     public static void  debug(int[] ints) {
         Gdx.app.log(TEG, "{"+ints[0]+"|"+ints[1]+"}");
     }
-    public static int   getFPS(){return Gdx.graphics.getFramesPerSecond();}
-    public static float getTime() { return Gdx.graphics.getDeltaTime();}
+
+    public static String  local() {
+        return Gdx.files.getLocalStoragePath();
+    }
+    public static boolean isHost(String host) {
+        if(host.equals(HOST)) return true;
+        else return false;
+    }
+
+    public static int   getFPS () { return Gdx.graphics.getFramesPerSecond();}
+    public static float getTime() { return Gdx.graphics.getDeltaTime();      }
+
     public static BitmapFont createFonts(String _font, int _size) {
         BitmapFont font;
         String FONT_CHARACTERS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя abcdefghijklmnopqrstuvwxyz АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ ABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890.:,;'\"(!?)+-*/=";
@@ -69,13 +83,7 @@ public class Debug {
         generator.dispose();
         return font;
     }
-    public static void treadSleep(int _ms)  {
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            Debug.debug(e.getMessage());
-        }
-    }
+
     public static Model loadModelOBJ(String _model_file) {
         ModelLoader loader = new ObjLoader();
         //Debug.debug(Gdx.files.internal(_model_file).path());
@@ -91,9 +99,8 @@ public class Debug {
         Model model = assets.get(Gdx.files.internal(_model_file).path(), Model.class);
         return model;
     }
-    public static String local() {
-        return Gdx.files.getLocalStoragePath();
-    }
+
+
     public static void downloadURL(String f_name, String f_url) {
         int count;
         try {
@@ -128,10 +135,6 @@ public class Debug {
 
         return result;
     }
-    public static boolean isHost(String host) {
-        if(host.equals(HOST)) return true;
-        else return false;
-    }
     public static JSONObject loadJSON(String file) {
         JSONObject result = null;
         try {
@@ -141,6 +144,9 @@ public class Debug {
         }
         return result;
     }
+
+
+
     @SuppressLint("WifiManagerLeak")
     public static int getWifiState() {
         wifi =(WifiManager) Launcher.context.getSystemService(Launcher.context.WIFI_SERVICE);
@@ -157,6 +163,7 @@ public class Debug {
 
         return result;
     }
+
     public static void dispose(Disposable _disposable) {
         if(_disposable!=null) _disposable.dispose();
 
@@ -165,6 +172,8 @@ public class Debug {
         _context.startActivity(new Intent(_context, _object.getClass()));
         if(_finish) _context.finish();
     }
+
+
     public static Texture setBackground(String _img, int _width, int _height) {
         Pixmap pixmap = new Pixmap(Gdx.files.internal(_img));
         Pixmap full = new Pixmap(_width, _height, pixmap.getFormat());
@@ -176,4 +185,45 @@ public class Debug {
         return result;
     }
 
+    public static double KOF() {
+        return ((double)Gdx.graphics.getHeight()/(double)1300);
+    }
+
+
+    public static Color getPixelColor() {
+        ByteBuffer buffer = ByteBuffer.allocate(1*1*4);
+        Gdx.gl.glReadPixels(Gdx.input.getX(), Gdx.input.getY(),
+                1, 1, GL20.GL_RGBA, GL20.GL_UNSIGNED_BYTE, buffer);
+        buffer = getColor(buffer);
+        return new Color(buffer.get(0), buffer.get(1), buffer.get(2), buffer.get(3));
+    }
+    public static ByteBuffer getColor(ByteBuffer byteBuffer) {
+        ByteBuffer buffer = ByteBuffer.allocate(1*1*4);
+
+        buffer.put(0, assigned(byteBuffer.get(0)));
+        buffer.put(1, assigned(byteBuffer.get(1)));
+        buffer.put(2, assigned(byteBuffer.get(2)));
+        buffer.put(3, assigned(byteBuffer.get(3)));
+        return buffer;
+    }
+    public static byte assigned(byte b) {
+        byte res = 0;
+        if(b < 0) {
+            b = (byte) ((int)b *-1);
+            res = b;
+        }
+        return b;
+    }
+
+
+    public static double getMouseX() {
+        double a = (double) Gdx.graphics.getWidth()/2.0f;
+        double b = (double) Gdx.input.getX()-a;
+        return b/KOF();
+    }
+    public static double getMouseY() {
+        double a = (double) Gdx.graphics.getHeight()/2.0f;
+        double b = (double)Gdx.input.getY()-a;
+        return b/KOF();
+    }
 }

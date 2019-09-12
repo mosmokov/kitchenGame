@@ -15,30 +15,27 @@ public class Recipes extends Screen {
      * Коструктор для загрузки фона
      * @param _background - путь к фоновому изображению
      */
-    public Recipes(String _background, int _x, int _y, InputMultiplexer __multiplexer) {
-        super(_background, _x,  _y, __multiplexer);
+    public Recipes(String _background, int _x, int _y) {
+        super(_background, _x,  _y);
         SET_SCREEN = 3;
 
-        label = new Label("РЕЦЕПТЫ", skin, "my-font", new Color(1,0,0,1));
-        labelSetPos(label, 100, 100);
+        label = component.createLabel("РЕЦЕПТЫ",  new Color(1,0,0,1));
+        label.setPosition(100, 100);
 
-        go_showcase = createImageButton("img/bt/off.png", "img/bt/on.png");
-        buttonSetPos(go_showcase, (WIDTH/2)-(go_showcase.getWidth()/2), 0);
-        listenerButton(go_showcase, 0);
+        //go_showcase = createImageButton("img/bt/off.png", "img/bt/on.png");
+        //buttonSetPos(go_showcase, (WIDTH/2)-(go_showcase.getWidth()/2), 0);
+        //listenerButton(go_showcase, 0);
 
-        stage.addActor(label);
-        stage.addActor(go_showcase);
+        component.addActor(label);
+
     }
 
     @Override public void drawBackground() {
         super.drawBackground();
-        batch.begin();
-        batch.draw(background, 0, cy);
-        batch.end();
-        labelSetPos(label, 100, 100);
-        buttonSetPos(go_showcase, (WIDTH/2)-(go_showcase.getWidth()/2), HEIGHT-go_showcase.getHeight());
-        stage.draw();
-        go_showcase.clearActions();
+        background.draw();
+        label.setPosition(100, 100);
+        //buttonSetPos(go_showcase, (WIDTH/2)-(go_showcase.getWidth()/2), HEIGHT-go_showcase.getHeight());
+        component.getStage().draw();
     }
 
 }

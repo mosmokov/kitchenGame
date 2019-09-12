@@ -8,14 +8,14 @@ import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.wradchuk.game.object.MyAnimSprite;
 import com.wradchuk.utils.PatchedAndroidApplication;
-import com.wradchuk.utils.TextureAnimation;
 
 public class TestRoom extends PatchedAndroidApplication implements ApplicationListener {
 
     public SpriteBatch wBatch; // холст
-    public TextureAnimation wTextureAnimation;
-    public TextureAnimation wTextureAnimation1;
+    public MyAnimSprite wTextureAnimation;
+    public MyAnimSprite wTextureAnimation1;
     public Texture wTexture;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +69,7 @@ public class TestRoom extends PatchedAndroidApplication implements ApplicationLi
     @Override public void resume() {}
     @Override public void dispose() {
         wBatch.dispose();
-        wTextureAnimation.walkSheet.dispose();
+        wTextureAnimation.texture.dispose();
     }
 
 }

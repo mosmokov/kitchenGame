@@ -15,42 +15,36 @@ public class Showcase extends Screen {
      * Коструктор для загрузки фона
      * @param _background - путь к фоновому изображению
      */
-    public Showcase(String _background, int _x, int _y, InputMultiplexer __multiplexer) {
-        super(_background, _x,  _y, __multiplexer);
+    public Showcase(String _background, int _x, int _y) {
+        super(_background, _x,  _y);
         SET_SCREEN = 0;
 
-        label = new Label("ВИТРИНА", skin, "my-font", new Color(1,0,0,1));
-        labelSetPos(label, 100, 100);
+        label = component.createLabel("ВИТРИНА",  new Color(1,0,0,1));
 
-        go_fortune = createImageButton("img/bt/off.png", "img/bt/on.png");
-        buttonSetPos(go_fortune, 0, (HEIGHT/2)-(go_fortune.getHeight()/2));
-        listenerButton(go_fortune, 1);
 
-        go_start_game = createImageButton("img/bt/off.png", "img/bt/on.png");
-        buttonSetPos(go_start_game, WIDTH-go_start_game.getWidth(), (HEIGHT/2)-(go_start_game.getHeight()/2));
-        listenerButton(go_start_game, 2);
+        //go_fortune = createImageButton("img/bt/off.png", "img/bt/on.png");
+        //buttonSetPos(go_fortune, 0, (HEIGHT/2)-(go_fortune.getHeight()/2));
+        //listenerButton(go_fortune, 1);
+//
+        //go_start_game = createImageButton("img/bt/off.png", "img/bt/on.png");
+        //buttonSetPos(go_start_game, WIDTH-go_start_game.getWidth(), (HEIGHT/2)-(go_start_game.getHeight()/2));
+        //listenerButton(go_start_game, 2);
+//
+        //go_recipes = createImageButton("img/bt/off.png", "img/bt/on.png");
+        //buttonSetPos(go_recipes, (WIDTH/2)-(go_recipes.getWidth()/2), 0);
+        //listenerButton(go_recipes, 3);
+//
+        component.addActor(label);
 
-        go_recipes = createImageButton("img/bt/off.png", "img/bt/on.png");
-        buttonSetPos(go_recipes, (WIDTH/2)-(go_recipes.getWidth()/2), 0);
-        listenerButton(go_recipes, 3);
-
-        stage.addActor(label);
-        stage.addActor(go_fortune);
-        stage.addActor(go_start_game);
-        stage.addActor(go_recipes);
     }
 
 
     @Override public void drawBackground() {
         super.drawBackground();
-        batch.begin();
-        batch.draw(background, cx, 0);
-        batch.end();
-        stage.draw();
+        background.draw();
+        label.setPosition(100, 100);
+        component.getStage().draw();
 
-        go_fortune.clearActions();
-        go_start_game.clearActions();
-        go_recipes.clearActions();
     }
 
     @Override

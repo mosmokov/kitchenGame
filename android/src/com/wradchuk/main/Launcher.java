@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.wradchuk.game.MainGame;
+import com.wradchuk.game.MainMenu;
 import com.wradchuk.manager.PlatformManager;
 import com.wradchuk.utils.Debug;
 import com.wradchuk.utils.PatchedAndroidApplication;

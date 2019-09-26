@@ -31,6 +31,7 @@ import com.vk.sdk.api.VKResponse;
 import com.vk.sdk.api.model.VKApiUser;
 import com.vk.sdk.api.model.VKList;
 import com.wradchuk.R;
+import com.wradchuk.utils.Debug;
 
 /***
  * Отвечает
@@ -40,7 +41,7 @@ public class Login extends Activity implements View.OnClickListener {
     /////////////////////////////////////////////////////////////////////////////////
     private enum Network {NULL, GOOGLE, FACEBOOK, VK, OK }       // Тип соцсети
     private ImageButton bGoogle, bVK, bFB, bOK;                  // Клавиши входа
-    private String sID, sFirstname, sLastname;                   // Место под данные
+    private String sID;                                          // ID соц сети
     private Network network;                                     // Выбранная сеть
     private static final int RC_SIGN_IN = 123;                   // Код ответа гугл
     //////////////////////////////////////////////////////////////////////////////////
@@ -137,12 +138,11 @@ public class Login extends Activity implements View.OnClickListener {
             if(!VKSdk.onActivityResult(requestCode, resultCode, data, new VKCallback<VKAccessToken>() {
                 @Override public void onResult(VKAccessToken res) {
                     sID = res.userId;
+                    Debug.debug(sID);
 
                     VKApi.users().get().executeWithListener(new VKRequest.VKRequestListener() {
                         @Override public void onComplete(VKResponse response) {
                             VKApiUser user = ((VKList<VKApiUser>)response.parsedModel).get(0);
-                            sFirstname = user.first_name;
-                            sLastname = user.last_name;
                         }
                     });
                 }
@@ -168,8 +168,7 @@ public class Login extends Activity implements View.OnClickListener {
     public void get_google(GoogleSignInAccount user) {
         if(user != null) {
             sID = user.getId();
-            sFirstname = user.getFamilyName();
-            sLastname = user.getGivenName();
+            Debug.debug(sID);
         }
     }
 
@@ -198,8 +197,7 @@ public class Login extends Activity implements View.OnClickListener {
     private void displayMessage(Profile profile){
         if(profile != null){
             sID = profile.getId();
-            sFirstname = profile.getFirstName();
-            sLastname = profile.getLastName();
+            Debug.debug(sID);
         }
     }
 }

@@ -13,6 +13,13 @@ public class MySprite extends MyImage {
         setPosX(x);
         setPosY(y);
     }
+
+    @Override
+    public MySprite position(int x, int y) {
+        setPosX(x);
+        setPosY(y);
+        return this;
+    }
     @Override public void draw() {
         super.draw();
         sclFactor();

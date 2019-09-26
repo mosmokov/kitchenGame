@@ -55,6 +55,15 @@ public class Debug {
     public static void  debug(int[] ints) {
         Gdx.app.log(TEG, "{"+ints[0]+"|"+ints[1]+"}");
     }
+    public static void  debug(int[] ints, String _msg) {
+        String res = "[";
+        for(int i = 0; i < ints.length; i++) {
+            if (i!=ints.length-1) res = res.concat(" "+ints[i]+",");
+            else res = res.concat(" "+ints[i]+" ]");
+        }
+
+        Gdx.app.log(TEG, _msg+""+res);
+    }
 
     public static String  local() {
         return Gdx.files.getLocalStoragePath();

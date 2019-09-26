@@ -9,6 +9,7 @@ import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.wradchuk.game1.RecipesData;
 import com.wradchuk.game.object.MyAnimSprite;
 import com.wradchuk.game.object.MyImage;
 import com.wradchuk.game.object.MySprite;
@@ -20,6 +21,7 @@ public class MainGame extends PatchedAndroidApplication implements ApplicationLi
 
     public static int         WIDTH       =    -1;
     public static int         HEIGHT      =    -1;
+    public RecipesData recipesData;
 
     public MyImage[] images = new MyImage[4];
     private SpriteBatch batch;
@@ -66,6 +68,8 @@ public class MainGame extends PatchedAndroidApplication implements ApplicationLi
         images[3].addMap(8, 4, 0.2f).position(-120, 130);
 
         box = new Texture("img/game/box.png");
+
+        recipesData = new RecipesData("russian", 0);
     }
 
     @Override public void resize(int width, int height) {

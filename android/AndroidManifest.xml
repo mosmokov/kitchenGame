@@ -38,10 +38,6 @@
             android:name=".activity.MyVideoPlayer"
             android:lockTaskMode="never"
             android:screenOrientation="landscape" />
-        <activity
-            android:name=".game.TestRoom"
-            android:lockTaskMode="never"
-            android:screenOrientation="portrait" />
 
         <activity
             android:name=".game.MainMenu"
@@ -50,6 +46,11 @@
 
         <activity
             android:name=".game.MainGame"
+            android:lockTaskMode="never"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".game1.Level"
             android:lockTaskMode="never"
             android:screenOrientation="portrait" />
 

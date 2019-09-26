@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.wradchuk.game.MainGame;
 import com.wradchuk.game.MainMenu;
+import com.wradchuk.game1.Level;
 import com.wradchuk.manager.PlatformManager;
 import com.wradchuk.utils.Debug;
 import com.wradchuk.utils.PatchedAndroidApplication;
@@ -68,7 +69,8 @@ public class Launcher extends PatchedAndroidApplication implements ApplicationLi
 			public void run() {
 				//Debug.Intent(new Login(), context, true);
 				//Debug.Intent(new MainMenu(), context, true);
-				Debug.Intent(new MainGame(), context, true);
+				//Debug.Intent(new MainGame(), context, true);
+				Debug.Intent(new Level(), context, true);
 			}
 		});
 	}

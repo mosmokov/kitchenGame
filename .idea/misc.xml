@@ -1,18 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="LibGDXGdxJsonFiles">
-    <file url="file://$PROJECT_DIR$/android/assets/gdx/default.fnt" />
-  </component>
-  <component name="LibGDXNonGdxJsonFiles">
-    <file url="file://$USER_HOME$/Documents/AndroidStudio/DeviceExplorer/Vedroid_9.0 [emulator-5554]/data/user/0/com.wradchuk/files/header.json" />
-  </component>
-  <component name="LibGDXNonSkins">
-    <file url="file://$PROJECT_DIR$/android/assets/gdx/default.fnt" />
-  </component>
-  <component name="LibGDXSkins">
-    <file url="file://$PROJECT_DIR$/android/assets/gdx/uiskin.json" />
-  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" project-jdk-name="1.8" project-jdk-type="JavaSDK">
-    <output url="file://$PROJECT_DIR$/classes" />
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
   </component>
 </project>

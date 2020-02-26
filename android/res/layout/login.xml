@@ -5,49 +5,11 @@
     android:layout_height="match_parent"
     android:background="#000000">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-        <ImageButton
-            android:id="@+id/vk_logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/vk_logo"
-            android:onClick="onClick"
-            android:src="@drawable/vk_logo" />
-
-        <ImageButton
-            android:id="@+id/fb_logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/fb_logo"
-            android:onClick="onClick"
-            android:src="@drawable/facebook_logo" />
-
-        <ImageButton
-            android:id="@+id/ok_logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/ok_logo"
-            android:onClick="onClick"
-            android:src="@drawable/ok_logo" />
-
-        <ImageButton
-            android:id="@+id/google_logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/google_logo"
-            android:onClick="onClick"
-            android:src="@drawable/google_logo" />
-
         <com.facebook.login.widget.LoginButton
             android:id="@+id/fb_logo1"
             android:layout_width="1dp"
             android:layout_height="1dp"
-            android:contentDescription="@string/fb_logo"
+            android:contentDescription=""
             android:visibility="invisible" />
-    </LinearLayout>
 
 </RelativeLayout>

@@ -3,14 +3,6 @@
 
     <string name="app_name">kitchenGame</string>
 
-    <string name="google_logo">GO</string>
-    <string name="vk_logo">VK</string>
-    <string name="fb_logo">FB</string>
-    <string name="ok_logo">TR</string>
-
-    <string name="title_activity_my_video_player">MyVideoPlayer</string>
-    <string name="button">Жми меня</string>
-    <string name="textview">Тест</string>
 
     <string name="facebook_app_id">363058554644982</string>
     <string name="fb_login_protocol_scheme">fb363058554644982</string>
@@ -18,16 +10,6 @@
     <integer name="com_vk_sdk_AppId">7076784</integer>
     <string name="com_vk_sdk_key">e0vo3rsJfT54oOOQTdsn</string>
 
-
-    <string name="text_help">Войдите в свой аккаунт</string>
-
-    <string name="text_login">Логин:</string>
-    <string name="text_pass">Пароль:</string>
-
-    <string name="edit_login"></string>
-    <string name="edit_pass"></string>
-    <string name="breg">Зарегистрироватся</string>
-    <string name="bauth">Войти</string>
-
+    <string name="com_google">AIzaSyBy7gjEhJTYdThZZtz47PJZ1FcJMorTBoM</string>
 
 </resources>

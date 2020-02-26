@@ -1,5 +1,7 @@
 package com.wradchuk.main;
 
+import android.hardware.display.DisplayManager;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -13,7 +15,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.wradchuk.utils.gui.MyComponent;
 import com.wradchuk.utils.keyboard.ApplicationBundle;
 import com.wradchuk.utils.keyboard.SizeChangeListener;
@@ -38,7 +44,7 @@ public class Core extends Game {
     private Color set_color;
     private Box box;
     public          SpriteBatch               batch                      ; //
-    public          FitViewport               viewport                   ; //
+    public          Viewport                  viewport                   ; //
     public          Stage                     stage                      ; //
     public          Skin                      skin                       ; //
     public          BitmapFont                comfortaaRegular           ; //
@@ -52,6 +58,9 @@ public class Core extends Game {
     public Core(ApplicationBundle _bundle, PatchedAndroidApplication _context) {
         view =  _bundle.getView();
         context = _context;
+
+
+
     }
 
 
@@ -59,7 +68,7 @@ public class Core extends Game {
         this.virtualWidth  = 1080;
         this.virtualHeight = 1920;
 
-        this.viewport      = new FitViewport(virtualWidth, virtualHeight);
+        this.viewport      = new FillViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         this.batch         = new SpriteBatch();
         this.renderer      = new ShapeRenderer();
 
@@ -81,7 +90,8 @@ public class Core extends Game {
         skin.add("podko", podkovaRegular,               BitmapFont.class);
 
 
-        LogOut.log(virtualWidth+"x"+virtualHeight);
+
+        LogOut.log(Gdx.graphics.getWidth()+"x"+Gdx.graphics.getHeight());
 
 
 
@@ -89,7 +99,7 @@ public class Core extends Game {
         multiplexer  = new InputMultiplexer();
         Gdx.input.setInputProcessor(multiplexer);
 
-        this.setScreen(new MainGame(this));
+        this.setScreen(new SplashScreen(this));
 
 
     }

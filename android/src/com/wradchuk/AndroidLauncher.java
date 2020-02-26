@@ -2,12 +2,16 @@ package com.wradchuk;
 
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.View;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.wradchuk.utils.keyboard.AndroidView;
 import com.wradchuk.utils.keyboard.ApplicationBundle;
 import com.wradchuk.main.Core;
+import com.wradchuk.utils.sys.LogOut;
 import com.wradchuk.utils.sys.PatchedAndroidApplication;
 
 public class AndroidLauncher extends PatchedAndroidApplication {
@@ -24,6 +28,22 @@ public class AndroidLauncher extends PatchedAndroidApplication {
 	@Override protected void onCreate (Bundle savedInstanceState) {
 		context = this;
 		super.onCreate(savedInstanceState);
+
+
+		// узнаем размеры экрана из класса Display
+		Display display = getWindowManager().getDefaultDisplay();
+		DisplayMetrics metricsB = new DisplayMetrics();
+		display.getMetrics(metricsB);
+		int a = metricsB.widthPixels;
+		int a1 = metricsB.heightPixels;
+		System.out.println("KITCHEN " + a);
+		System.out.println("KITCHEN " + a1);
+
+		DisplayMetrics displaymetrics = getResources().getDisplayMetrics();
+
+		System.out.println("KITCHEN " + displaymetrics.widthPixels);
+		System.out.println("KITCHEN " + displaymetrics.heightPixels);
+
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		rootView = this.getWindow().getDecorView().getRootView();
 		Rect rect = new Rect();

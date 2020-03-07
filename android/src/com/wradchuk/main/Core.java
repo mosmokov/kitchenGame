@@ -79,6 +79,8 @@ public class Core extends Game {
 
         skin  = new Skin(Gdx.files.internal("gdx/uiskin.json"));
 
+        LogOut.log("test");
+
         this.comfortaaRegular            = MyComponent.setFont("ttf/Comfortaa-Regular.ttf"           , 30);
         this.montserratAlternatesRegular = MyComponent.setFont("ttf/MontserratAlternates-Regular.ttf", 22);
         this.pattayaRegular              = MyComponent.setFont("ttf/Pattaya-Regular.ttf"             , 22);

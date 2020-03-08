@@ -8,6 +8,8 @@ import android.view.View;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.sokolov.androidsizes.ISize;
+import com.sokolov.androidsizes.SizeFromDisplay;
 import com.wradchuk.utils.keyboard.AndroidView;
 import com.wradchuk.utils.keyboard.ApplicationBundle;
 import com.wradchuk.main.Core;
@@ -67,6 +69,12 @@ public class AndroidLauncher extends PatchedAndroidApplication {
 			}
 		});
 
-		initialize(new Core(new ApplicationBundle(androidView), context), config);
+		initialize(new Core(new ApplicationBundle(androidView), context, getScreenSize()), config);
+	}
+
+
+	public int[] getScreenSize() {
+		ISize size = new SizeFromDisplay(getWindowManager().getDefaultDisplay());
+		return new int[] {size.width(), size.height()};
 	}
 }

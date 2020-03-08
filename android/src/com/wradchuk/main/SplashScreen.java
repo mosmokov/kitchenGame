@@ -33,17 +33,20 @@ public class SplashScreen implements Screen {
 
 
 
-    public SplashScreen(final Core gam) {
-        game = gam;
+    public SplashScreen(final Core _game) {
+        game = _game;
 
         background = new Sprite(new Texture("screen/splash/background_stars.png"));
 
 
         cloud_1 = new Sprite(new Texture("screen/splash/cloud_1.png"));
+        cloud_1=game.resizeble.resizeSprite(cloud_1);
         cloud_2 = new Sprite(new Texture("screen/splash/cloud_2.png"));
+        cloud_2=game.resizeble.resizeSprite(cloud_2);
         cloud_niz = new Sprite(new Texture("screen/splash/Cloud_niz.png"));
+        cloud_niz=game.resizeble.resizeSprite(cloud_niz);
         planet = new Sprite(new Texture("screen/splash/planet.png"));
-
+        planet=game.resizeble.resizeSprite(planet);
 
         planet_x = game.virtualWidth/2-(planet.getWidth()/2);
         planet_y = -((game.virtualWidth)/1.40f)-planet.getHeight()/4;
@@ -52,12 +55,11 @@ public class SplashScreen implements Screen {
         center_planet_y = planet_y + (planet.getHeight() / 2);
         radius_planet = (planet.getWidth()/2);
 
-        planet.setSize(planet.getWidth(),planet.getHeight());
         planet.setOrigin(planet.getWidth()/2,planet.getHeight()/2);
         planet.setPosition(planet_x, planet_y);
 
         sun = new Sprite(new Texture("screen/splash/sun_done.png"));
-        sun.setSize(sun.getWidth(),sun.getHeight());
+        sun=game.resizeble.resizeSprite(sun);
         sun.setOrigin(sun.getWidth()/2,sun.getHeight()/2);
 
         shar = new Sprite(new Texture("screen/splash/shar.png"));
@@ -82,20 +84,23 @@ public class SplashScreen implements Screen {
             else b +=0.9f;
 
             point = pointInOrbit(b);
-            sun.setPosition(point.x - (sun.getWidth() / 2), point.y - (sun.getHeight() / 2));
 
+
+            sun.setPosition(point.x - (sun.getWidth() / 2), point.y - (sun.getHeight() / 2));
             sun.draw(game.batch);
 
-            if(b>radius_planet/2) { game.setScreen(new ShopRecipes(game));
+            //if(b>radius_planet/2) { game.setScreen(new ShopRecipes(game));}
 
-            }
-
-            game.batch.draw(cloud_1, (game.virtualWidth/2)-460, game.virtualHeight/2);
-            game.batch.draw(cloud_2, (game.virtualWidth/2)+300, game.virtualHeight/2);
-            game.batch.draw(cloud_niz, (game.virtualWidth/2)+200, (game.virtualHeight/2)-300);
+            cloud_1.setPosition((game.virtualWidth/2)-game.virtualWidth/4, game.virtualHeight/2);
+            cloud_1.draw(game.batch);
+            cloud_2.setPosition((game.virtualWidth/2)+game.virtualWidth/4, game.virtualHeight/2);
+            cloud_2.draw(game.batch);
+            cloud_niz.setPosition((game.virtualWidth/2)+game.virtualWidth/4, (game.virtualHeight/2)-game.virtualWidth/4);
+            cloud_niz.draw(game.batch);
 
             planet.draw(game.batch);
-            game.batch.draw(shar, game.virtualWidth/2-(shar.getWidth()/2), game.virtualHeight/2-(shar.getHeight()/4));
+            shar.setPosition(game.virtualWidth/2-(shar.getWidth()/2), game.virtualHeight/2-(shar.getHeight()/4));
+            shar.draw(game.batch);
 
             game.batch.end();
 

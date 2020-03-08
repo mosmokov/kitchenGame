@@ -1,7 +1,5 @@
 package com.wradchuk.main;
 
-import android.hardware.display.DisplayManager;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -20,7 +18,10 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.wradchuk.main.quest.TestScreen;
+import com.wradchuk.main.shop.ShopRecipes;
 import com.wradchuk.utils.gui.MyComponent;
+import com.wradchuk.utils.gui.MyResize2;
 import com.wradchuk.utils.keyboard.ApplicationBundle;
 import com.wradchuk.utils.keyboard.SizeChangeListener;
 import com.wradchuk.utils.keyboard.View;
@@ -45,6 +46,8 @@ public class Core extends Game {
     private Box box;
     public          SpriteBatch               batch                      ; //
     public          Viewport                  viewport                   ; //
+    public MyResize2 resizeble;
+    public int[] screenSize = new int[2];
     public          Stage                     stage                      ; //
     public          Skin                      skin                       ; //
     public          BitmapFont                comfortaaRegular           ; //
@@ -55,7 +58,9 @@ public class Core extends Game {
 
 
     public Core() {}
-    public Core(ApplicationBundle _bundle, PatchedAndroidApplication _context) {
+    public Core(ApplicationBundle _bundle, PatchedAndroidApplication _context, int[] _screenSize) {
+        this.screenSize = _screenSize;
+        this.resizeble = new MyResize2(screenSize[0], screenSize[1]);
         view =  _bundle.getView();
         context = _context;
 
@@ -97,7 +102,7 @@ public class Core extends Game {
 
 
 
-        stage = new Stage(viewport);
+        stage = new Stage();//viewport
         multiplexer  = new InputMultiplexer();
         Gdx.input.setInputProcessor(multiplexer);
 
@@ -119,7 +124,7 @@ public class Core extends Game {
         //skin.dispose();
     }
     @Override public void resize(int width, int height) {
-        viewport.update(width, height, true);
+        viewport.update(screenSize[0], screenSize[1], true);
         setWX = (int) viewport.getWorldWidth();
         setWY = (int) viewport.getWorldHeight();
         box.resize(setWX, setWY);
@@ -144,7 +149,7 @@ public class Core extends Game {
         viewport.getCamera().update();
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
-        fonClear(0,0,0,1);
+        box.fonClear(0,0,0,1);
     }
 
 

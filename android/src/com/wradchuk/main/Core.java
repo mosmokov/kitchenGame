@@ -48,12 +48,14 @@ public class Core extends Game {
     public          BitmapFont                pattayaRegular             ; //
     public          BitmapFont                podkovaRegular             ; //
     public float keyboardHeight;
+    public float a1 = 0;
 
 
     public Core() {}
-    public Core(ApplicationBundle _bundle, PatchedAndroidApplication _context, int[] _screenSize) {
+    public Core(ApplicationBundle _bundle, PatchedAndroidApplication _context, int[] _screenSize, int _a1) {
         this.screenSize = _screenSize;
-        this.resizable = new MyResize2(screenSize[0], screenSize[1]);
+        a1 = _a1;
+        //this.resizable = new MyResize2(screenSize[0], screenSize[1]);
         view =  _bundle.getView();
         context = _context;
 
@@ -63,7 +65,8 @@ public class Core extends Game {
     public void create() {
         this.virtualWidth  = 1080;
         this.virtualHeight = 1920;
-        AndroidLauncher.hideSystemUI(context);
+
+        LogOut.log("Others " + (int)(Gdx.graphics.getHeight()-a1));
 
         this.viewport      = new FitViewport(virtualWidth, virtualHeight);
         this.batch         = new SpriteBatch();
@@ -122,9 +125,7 @@ public class Core extends Game {
         box.resize(setWX, setWY);
     }
     @Override public void pause() {}
-    @Override public void resume() {
-        AndroidLauncher.hideSystemUI(context);
-    }
+    @Override public void resume() {}
 
     public void rotateSprite(Sprite s, float _speed) {
         float rotation=s.getRotation();

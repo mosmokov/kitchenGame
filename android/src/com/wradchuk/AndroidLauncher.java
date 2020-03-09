@@ -32,6 +32,7 @@ public class AndroidLauncher extends PatchedAndroidApplication {
 		super.onCreate(savedInstanceState);
 
 
+
 		// узнаем размеры экрана из класса Display
 		Display display = getWindowManager().getDefaultDisplay();
 		DisplayMetrics metricsB = new DisplayMetrics();
@@ -45,6 +46,9 @@ public class AndroidLauncher extends PatchedAndroidApplication {
 
 		System.out.println("KITCHEN " + displaymetrics.widthPixels);
 		System.out.println("KITCHEN " + displaymetrics.heightPixels);
+
+
+		hideSystemUI(this);
 
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		rootView = this.getWindow().getDecorView().getRootView();
@@ -69,7 +73,7 @@ public class AndroidLauncher extends PatchedAndroidApplication {
 			}
 		});
 
-		initialize(new Core(new ApplicationBundle(androidView), context, getScreenSize()), config);
+		initialize(new Core(new ApplicationBundle(androidView), context, getScreenSize(), a1), config);
 	}
 
 
@@ -95,7 +99,6 @@ public class AndroidLauncher extends PatchedAndroidApplication {
 						| View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
 						| View.SYSTEM_UI_FLAG_FULLSCREEN);
 	}
-
 	// Shows the system bars by removing all the flags
 	// except for the ones that make the content appear under the system bars.
 	public static void showSystemUI(PatchedAndroidApplication _application) {

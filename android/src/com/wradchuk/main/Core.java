@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.wradchuk.AndroidLauncher;
 import com.wradchuk.utils.gui.MyComponent;
 import com.wradchuk.utils.gui.MyResize2;
 import com.wradchuk.utils.keyboard.ApplicationBundle;
@@ -38,7 +39,7 @@ public class Core extends Game {
     public Box box;
     public          SpriteBatch               batch                      ; //
     public          Viewport                  viewport                   ; //
-    public MyResize2 resizeble;
+    public MyResize2 resizable;
     public int[] screenSize = new int[2];
     public          Stage                     stage                      ; //
     public          Skin                      skin                       ; //
@@ -52,7 +53,7 @@ public class Core extends Game {
     public Core() {}
     public Core(ApplicationBundle _bundle, PatchedAndroidApplication _context, int[] _screenSize) {
         this.screenSize = _screenSize;
-        this.resizeble = new MyResize2(screenSize[0], screenSize[1]);
+        this.resizable = new MyResize2(screenSize[0], screenSize[1]);
         view =  _bundle.getView();
         context = _context;
 
@@ -62,6 +63,7 @@ public class Core extends Game {
     public void create() {
         this.virtualWidth  = 1080;
         this.virtualHeight = 1920;
+        AndroidLauncher.hideSystemUI(context);
 
         this.viewport      = new FitViewport(virtualWidth, virtualHeight);
         this.batch         = new SpriteBatch();
@@ -120,7 +122,9 @@ public class Core extends Game {
         box.resize(setWX, setWY);
     }
     @Override public void pause() {}
-    @Override public void resume() {}
+    @Override public void resume() {
+        AndroidLauncher.hideSystemUI(context);
+    }
 
     public void rotateSprite(Sprite s, float _speed) {
         float rotation=s.getRotation();

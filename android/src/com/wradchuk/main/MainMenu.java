@@ -6,15 +6,16 @@ public class MainMenu implements Screen {
     final Core game;
 
 
-    public MainMenu(final Core gam) { game = gam; }
+    public MainMenu(final Core _game) {
+        game = _game;
 
-    @Override public void show() {
+
 
     }
+
+    @Override public void show() {}
     @Override public void render(float delta) {
-
         game.update();
-
 
 
     }

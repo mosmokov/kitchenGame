@@ -18,8 +18,6 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.wradchuk.main.quest.TestScreen;
-import com.wradchuk.main.shop.ShopRecipes;
 import com.wradchuk.utils.gui.MyComponent;
 import com.wradchuk.utils.gui.MyResize2;
 import com.wradchuk.utils.keyboard.ApplicationBundle;
@@ -102,7 +100,7 @@ public class Core extends Game {
 
 
 
-        stage = new Stage();//viewport
+        stage = new Stage(viewport);
         multiplexer  = new InputMultiplexer();
         Gdx.input.setInputProcessor(multiplexer);
 
@@ -124,7 +122,7 @@ public class Core extends Game {
         //skin.dispose();
     }
     @Override public void resize(int width, int height) {
-        viewport.update(screenSize[0], screenSize[1], true);
+        viewport.update(width, height, true);
         setWX = (int) viewport.getWorldWidth();
         setWY = (int) viewport.getWorldHeight();
         box.resize(setWX, setWY);

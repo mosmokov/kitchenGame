@@ -37,16 +37,17 @@ public class SplashScreen implements Screen {
         game = _game;
 
         background = new Sprite(new Texture("screen/splash/background_stars.png"));
+        background.setPosition(0,0);
 
 
         cloud_1 = new Sprite(new Texture("screen/splash/cloud_1.png"));
-        cloud_1=game.resizeble.resizeSprite(cloud_1);
+
         cloud_2 = new Sprite(new Texture("screen/splash/cloud_2.png"));
-        cloud_2=game.resizeble.resizeSprite(cloud_2);
+
         cloud_niz = new Sprite(new Texture("screen/splash/Cloud_niz.png"));
-        cloud_niz=game.resizeble.resizeSprite(cloud_niz);
+
         planet = new Sprite(new Texture("screen/splash/planet.png"));
-        planet=game.resizeble.resizeSprite(planet);
+
 
         planet_x = game.virtualWidth/2-(planet.getWidth()/2);
         planet_y = -((game.virtualWidth)/1.40f)-planet.getHeight()/4;
@@ -59,7 +60,6 @@ public class SplashScreen implements Screen {
         planet.setPosition(planet_x, planet_y);
 
         sun = new Sprite(new Texture("screen/splash/sun_done.png"));
-        sun=game.resizeble.resizeSprite(sun);
         sun.setOrigin(sun.getWidth()/2,sun.getHeight()/2);
 
         shar = new Sprite(new Texture("screen/splash/shar.png"));
@@ -77,7 +77,7 @@ public class SplashScreen implements Screen {
         game.update();
         game.batch.begin();
 
-        game.batch.draw(background, 0, 0, game.virtualWidth, game.virtualHeight);
+        background.draw(game.batch);
 
 
             if (b >= radius_planet + (sun.getWidth() / 2)) b = 0.0f;
@@ -89,7 +89,7 @@ public class SplashScreen implements Screen {
             sun.setPosition(point.x - (sun.getWidth() / 2), point.y - (sun.getHeight() / 2));
             sun.draw(game.batch);
 
-            //if(b>radius_planet/2) { game.setScreen(new ShopRecipes(game));}
+            if(b>radius_planet/4) { game.setScreen(new ShopRecipes(game));}
 
             cloud_1.setPosition((game.virtualWidth/2)-game.virtualWidth/4, game.virtualHeight/2);
             cloud_1.draw(game.batch);
@@ -107,8 +107,6 @@ public class SplashScreen implements Screen {
             game.rotateSprite(sun, 0.5f);
             game.rotateSprite(planet, -0.5f);
     }
-
-
 
     public Vector2 pointInOrbit(float horz) {
         double x = (horz - center_planet_x) / radius_planet;

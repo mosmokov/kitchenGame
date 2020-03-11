@@ -106,7 +106,9 @@ public class Core extends Game {
 
     }
 
-    @Override public void render() {super.render();}
+    @Override public void render() {
+        super.render();
+    }
 
     @Override public void dispose() {
         Utils.dispose(batch);

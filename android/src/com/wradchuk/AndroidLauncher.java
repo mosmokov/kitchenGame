@@ -6,7 +6,6 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.sokolov.androidsizes.ISize;
 import com.sokolov.androidsizes.SizeFromDisplay;
@@ -32,7 +31,6 @@ public class AndroidLauncher extends PatchedAndroidApplication {
 		super.onCreate(savedInstanceState);
 
 
-
 		// узнаем размеры экрана из класса Display
 		Display display = getWindowManager().getDefaultDisplay();
 		DisplayMetrics metricsB = new DisplayMetrics();
@@ -48,9 +46,9 @@ public class AndroidLauncher extends PatchedAndroidApplication {
 		System.out.println("KITCHEN " + displaymetrics.heightPixels);
 
 
-		hideSystemUI(this);
-
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
+		config.useImmersiveMode = false;
+		//useImeMode=true;
 		rootView = this.getWindow().getDecorView().getRootView();
 		Rect rect = new Rect();
 		rootView.getWindowVisibleDisplayFrame(rect);
@@ -83,29 +81,5 @@ public class AndroidLauncher extends PatchedAndroidApplication {
 	}
 
 
-	public static void hideSystemUI(PatchedAndroidApplication _application) {
-		// Enables regular immersive mode.
-		// For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
-		// Or for "sticky immersive," replace it with SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-		View decorView = _application.getWindow().getDecorView();
-		decorView.setSystemUiVisibility(
-				View.SYSTEM_UI_FLAG_IMMERSIVE
-						// Set the content to appear under the system bars so that the
-						// content doesn't resize when the system bars hide and show.
-						| View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-						| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-						| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-						// Hide the nav bar and status bar
-						| View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-						| View.SYSTEM_UI_FLAG_FULLSCREEN);
-	}
-	// Shows the system bars by removing all the flags
-	// except for the ones that make the content appear under the system bars.
-	public static void showSystemUI(PatchedAndroidApplication _application) {
-		View decorView = _application.getWindow().getDecorView();
-		decorView.setSystemUiVisibility(
-				View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-						| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-						| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-	}
+
 }

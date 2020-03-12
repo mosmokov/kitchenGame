@@ -64,8 +64,8 @@ public class Core extends Game {
 
 
     public void create() {
-        this.virtualWidth  = Gdx.graphics.getWidth();
-        this.virtualHeight = Gdx.graphics.getHeight();
+        this.virtualWidth  = 1080;
+        this.virtualHeight = 1920;
 
         LogOut.log("Others " + (int)(Gdx.graphics.getHeight()-a1));
 

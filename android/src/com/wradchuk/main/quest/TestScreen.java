@@ -12,7 +12,9 @@ import com.wradchuk.utils.sys.Utils;
 public class TestScreen implements Screen {
     final Core game;
 
-    private final int ALL = 5;
+
+    private final int ALL = 4;
+    private Sprite bg;
     private Sprite[] sprite = new Sprite[ALL];
 
 
@@ -20,21 +22,19 @@ public class TestScreen implements Screen {
     public TestScreen(final Core _game) {
         game = _game;
 
-        for(int i = 0; i < ALL; i++)  sprite[i] = new Sprite(new Texture("quest/test/1.png"));
+        bg = new Sprite(new Texture("quest/test/background.png"));
 
-        float ScreeX = Gdx.graphics.getWidth()/5;
+        for(int i = 0; i < ALL; i++)  sprite[i] = new Sprite(new Texture("quest/test/"+(i+1)+".png"));
 
+       //float ScreeX = game.virtualWidth/(ALL);
 
+       //for(int i = 0; i < ALL; i++) {
+       //    sprite[i].setPosition((i*ScreeX), game.virtualHeight-sprite[i].getHeight());
+       //    //sprite[i].setPosition((ScreeX-(sprite[i].getWidth())/2)+(i*ScreeX), 0);
+       //    LogOut.log(sprite[i].getX()+sprite[i].getWidth()/2 + " " + sprite[i].getY()+sprite[i].getHeight());
+       //}
 
-
-        //setPositionPercent(sprite[0],10,10, ScreeX);
-        //setPositionPercent(sprite[1],10,10, ScreeX);
-        //setPositionPercent(sprite[2],10,10, ScreeX);
-        //setPositionPercent(sprite[3],10,10, ScreeX);
-        //setPositionPercent(sprite[4],10,10, ScreeX);
-
-        sprite[0].setPosition(128,128);
-        sprite[0].setOrigin(32,32);
+        setPosArraySprite(sprite, game.virtualHeight);
 
 
 
@@ -49,11 +49,10 @@ public class TestScreen implements Screen {
     @Override public void render(float delta) {
         game.update();
 
-
-        for(int i = 0; i < ALL; i++)  game.rotateSprite(sprite[i], 2);
+        //for(int i = 0; i < ALL; i++)  game.rotateSprite(sprite[i], 2);
         game.batch.begin();
-        //for(int i = 0; i < ALL; i++)  sprite[i].draw(game.batch);
-        sprite[0].draw(game.batch);
+        game.batch.draw(bg, 0, 0, game.virtualWidth, game.virtualHeight);
+        for(int i = 0; i < ALL; i++)  sprite[i].draw(game.batch);
         game.batch.end();
 
 
@@ -73,17 +72,29 @@ public class TestScreen implements Screen {
     }
     @Override public void dispose() {
         Utils.dispose(game.batch);
+        Utils.dispose(bg.getTexture());
         for(int i = 0; i < ALL; i++)  Utils.dispose(sprite[i].getTexture());
     }
 
 
 
-    public void setPositionPercent(Sprite _sprite, float _x, float _y, float _ScreeX) {
-        float x = _x*(_ScreeX/100.0f)-_sprite.getOriginX();
+    public void setPositionPercent(Sprite _sprite, float _x, float _y) {
+        float x = _x*(Gdx.graphics.getWidth()/100.0f)-_sprite.getOriginX();
         float y = _y*(Gdx.graphics.getHeight()/100.0f)-_sprite.getOriginY();
         _sprite.setOrigin(_sprite.getWidth()/2, _sprite.getHeight()/2);
         _sprite.setPosition(x, y);
         LogOut.log(_sprite.getX() + " " + _sprite.getY());
+    }
+
+
+    public void setPosArraySprite(Sprite[] _sprites, float _y) {
+        float ScreeX = game.virtualWidth/_sprites.length;
+
+        for(int i = 0; i < _sprites.length; i++) {
+            if(_y>game.virtualHeight/2) _sprites[i].setPosition((i*ScreeX), _y-_sprites[i].getHeight());
+            else _sprites[i].setPosition((i*ScreeX), _y);
+            LogOut.log(_sprites[i].getX()+_sprites[i].getWidth()/2 + " " + _sprites[i].getY()+_sprites[i].getHeight());
+        }
     }
 
     public Vector2 perScreen(float _width, float _heght, int _offsetW) {

@@ -12,7 +12,6 @@ import com.sokolov.androidsizes.SizeFromDisplay;
 import com.wradchuk.utils.keyboard.AndroidView;
 import com.wradchuk.utils.keyboard.ApplicationBundle;
 import com.wradchuk.main.Core;
-import com.wradchuk.utils.sys.LogOut;
 import com.wradchuk.utils.sys.PatchedAndroidApplication;
 
 public class AndroidLauncher extends PatchedAndroidApplication {
@@ -47,8 +46,8 @@ public class AndroidLauncher extends PatchedAndroidApplication {
 
 
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		config.useImmersiveMode = false;
-		//useImeMode=true;
+		//config.useImmersiveMode = false;
+		useImeMode=true;
 		rootView = this.getWindow().getDecorView().getRootView();
 		Rect rect = new Rect();
 		rootView.getWindowVisibleDisplayFrame(rect);

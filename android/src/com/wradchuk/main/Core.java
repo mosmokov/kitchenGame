@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.wradchuk.AndroidLauncher;
+import com.wradchuk.main.quest.TestScreen;
 import com.wradchuk.utils.gui.MyComponent;
 import com.wradchuk.utils.gui.MyResize2;
 import com.wradchuk.utils.keyboard.ApplicationBundle;
@@ -63,8 +64,8 @@ public class Core extends Game {
 
 
     public void create() {
-        this.virtualWidth  = 1080;
-        this.virtualHeight = 1920;
+        this.virtualWidth  = Gdx.graphics.getWidth();
+        this.virtualHeight = Gdx.graphics.getHeight();
 
         LogOut.log("Others " + (int)(Gdx.graphics.getHeight()-a1));
 
@@ -101,7 +102,7 @@ public class Core extends Game {
         multiplexer  = new InputMultiplexer();
         Gdx.input.setInputProcessor(multiplexer);
 
-        this.setScreen(new SplashScreen(this));
+        this.setScreen(new TestScreen(this));
 
 
     }

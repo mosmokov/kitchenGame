@@ -43,9 +43,9 @@ public class PatchedAndroidApplication extends AndroidApplication {
 
     @Override public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-            if(hasFocus) {
-                if(useImeMode) decorView.setSystemUiVisibility(hideSystemBars());
-            }
+        if(hasFocus) {
+            if(useImeMode) decorView.setSystemUiVisibility(hideSystemBars());
+        }
 
     }
 

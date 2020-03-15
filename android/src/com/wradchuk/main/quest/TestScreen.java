@@ -36,13 +36,7 @@ public class TestScreen implements Screen {
 
         setPosArraySprite(sprite, game.virtualHeight);
 
-
-
         LogOut.log(Gdx.graphics.getWidth() + " " + Gdx.graphics.getHeight());
-
-
-        //posPerSprite(5, xz, 0, 50.0f);
-
     }
 
     @Override public void show() {}

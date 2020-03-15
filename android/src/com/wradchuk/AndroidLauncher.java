@@ -36,13 +36,13 @@ public class AndroidLauncher extends PatchedAndroidApplication {
 		display.getMetrics(metricsB);
 		int a = metricsB.widthPixels;
 		int a1 = metricsB.heightPixels;
-		System.out.println("KITCHEN " + a);
-		System.out.println("KITCHEN " + a1);
+		//System.out.println("KITCHEN " + a);
+		//System.out.println("KITCHEN " + a1);
 
 		DisplayMetrics displaymetrics = getResources().getDisplayMetrics();
 
-		System.out.println("KITCHEN " + displaymetrics.widthPixels);
-		System.out.println("KITCHEN " + displaymetrics.heightPixels);
+		//System.out.println("KITCHEN " + displaymetrics.widthPixels);
+		//System.out.println("KITCHEN " + displaymetrics.heightPixels);
 
 
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();

@@ -13,8 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.wradchuk.AndroidLauncher;
 import com.wradchuk.main.quest.TestScreen;
+import com.wradchuk.main.test.TestScreens;
 import com.wradchuk.utils.gui.MyComponent;
 import com.wradchuk.utils.gui.MyResize2;
 import com.wradchuk.utils.keyboard.ApplicationBundle;
@@ -24,6 +24,8 @@ import com.wradchuk.utils.gui.Box;
 import com.wradchuk.utils.sys.LogOut;
 import com.wradchuk.utils.sys.PatchedAndroidApplication;
 import com.wradchuk.utils.sys.Utils;
+
+import java.util.ArrayList;
 
 
 public class Core extends Game {
@@ -64,10 +66,10 @@ public class Core extends Game {
 
 
     public void create() {
-        this.virtualWidth  = 1080;
-        this.virtualHeight = 1920;
+        this.virtualWidth  = 720;
+        this.virtualHeight = 1280;
 
-        LogOut.log("Others " + (int)(Gdx.graphics.getHeight()-a1));
+        //LogOut.log("Others " + (int)(Gdx.graphics.getHeight()-a1));
 
         this.viewport      = new FitViewport(virtualWidth, virtualHeight);
         this.batch         = new SpriteBatch();
@@ -79,8 +81,6 @@ public class Core extends Game {
         box                = new Box((int) virtualWidth,  (int)virtualHeight, batch);
 
         skin  = new Skin(Gdx.files.internal("gdx/uiskin.json"));
-
-        LogOut.log("test");
 
         this.comfortaaRegular            = MyComponent.setFont("ttf/Comfortaa-Regular.ttf"           , 30);
         this.montserratAlternatesRegular = MyComponent.setFont("ttf/MontserratAlternates-Regular.ttf", 22);
@@ -94,7 +94,7 @@ public class Core extends Game {
 
 
 
-        LogOut.log(Gdx.graphics.getWidth()+"x"+Gdx.graphics.getHeight());
+        //LogOut.log(Gdx.graphics.getWidth()+"x"+Gdx.graphics.getHeight());
 
 
 
@@ -102,7 +102,7 @@ public class Core extends Game {
         multiplexer  = new InputMultiplexer();
         Gdx.input.setInputProcessor(multiplexer);
 
-        this.setScreen(new TestScreen(this));
+        this.setScreen(new TestScreens(this));
 
 
     }
@@ -164,5 +164,19 @@ public class Core extends Game {
             }
         });
     }
+
+
+
+    public void setPosArraySprite(Sprite[] _sprites, float _y) {
+        float ScreeX = virtualWidth/_sprites.length;
+
+        for(int i = 0; i < _sprites.length; i++) {
+            if(_y>virtualHeight/2) _sprites[i].setPosition((i*ScreeX), _y-_sprites[i].getHeight());
+            else _sprites[i].setPosition((i*ScreeX), _y);
+            //LogOut.log(_sprites[i].getX()+_sprites[i].getWidth()/2 + " " + _sprites[i].getY()+_sprites[i].getHeight());
+        }
+    }
+
+
 
 }

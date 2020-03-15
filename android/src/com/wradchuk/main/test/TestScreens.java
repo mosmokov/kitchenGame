@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class TestScreens implements Screen {
     final Core game;
     public JSONObject jsonScreens;
+    public float[] x_scroll = new float[] { 150, 360, 570};
     private ArrayList<Scroll> scrolls = new ArrayList<>();
 
 
@@ -100,7 +101,6 @@ public class TestScreens implements Screen {
 
 
     public void setPosArrayScroll(ArrayList<Scroll> _scroll, float _y, int _len) {
-        float ScreeX = game.virtualWidth/(_len+1);
         int line = (_scroll.size()/_len);
         float height_sprite = _scroll.get(0).scroll_widget.getHeight();
 
@@ -115,7 +115,7 @@ public class TestScreens implements Screen {
                 if((i*_len+j)<_scroll.size()) {
                     LogOut.log("ID: = "+(i*_len+j) + " y" + _y);
                     ImageButton temp = _scroll.get(i*_len+j).scroll_widget;
-                    temp.setPosition(((j+1)*ScreeX)-temp.getWidth()/2, _y);
+                    temp.setPosition(x_scroll[j]-(temp.getWidth()/2), _y);
                     _scroll.get(i*_len+j).setPosition(temp.getX(), temp.getY());
                     temp = null;
                 }

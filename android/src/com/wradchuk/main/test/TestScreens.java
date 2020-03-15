@@ -101,7 +101,7 @@ public class TestScreens implements Screen {
 
 
     public void setPosArrayScroll(ArrayList<Scroll> _scroll, float _y, int _len) {
-        int line = (_scroll.size()/_len);
+        int line = (_scroll.size()/_len+1);
         float height_sprite = _scroll.get(0).scroll_widget.getHeight();
 
         for(int i = 0; i < line; i++) {

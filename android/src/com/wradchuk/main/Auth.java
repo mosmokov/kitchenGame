@@ -10,12 +10,11 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.wradchuk.utils.gui.MyComponent;
-import com.wradchuk.utils.net.AsyncResultPasser;
-import com.wradchuk.utils.ffilesys.CreateFileConfig;
-import com.wradchuk.utils.sys.LogOut;
-import com.wradchuk.utils.sys.Utils;
-import com.wradchuk.utils.net.Command;
+import com.wradchuk.utils.AsyncResultPasser;
+import com.wradchuk.utils.CreateFileConfig;
+import com.wradchuk.utils.LogOut;
+import com.wradchuk.utils.Utils;
+import com.wradchuk.utils.Command;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,10 +50,10 @@ public class Auth implements Screen, InputProcessor, AsyncResultPasser {
         cloud_1 = new Sprite(new Texture("screen/auth/cloud_1.png"));
         cloud_2 = new Sprite(new Texture("screen/auth/cloud_2.png"));
         shar = new Sprite(new Texture("screen/auth/shar.png"));
-        login_icon = MyComponent.createImageButton("screen/auth/login_icon.png","screen/auth/login_icon.png" );
-        stripes_login =  MyComponent.createImageButton("screen/auth/stripes.png","screen/auth/stripes.png");
-        password_icon =  MyComponent.createImageButton("screen/auth/password_icon.png", "screen/auth/password_icon.png");
-        stripes_password =  MyComponent.createImageButton("screen/auth/stripes.png", "screen/auth/stripes.png");
+        login_icon = Utils.createImageButton("screen/auth/login_icon.png","screen/auth/login_icon.png" );
+        stripes_login =  Utils.createImageButton("screen/auth/stripes.png","screen/auth/stripes.png");
+        password_icon =  Utils.createImageButton("screen/auth/password_icon.png", "screen/auth/password_icon.png");
+        stripes_password =  Utils.createImageButton("screen/auth/stripes.png", "screen/auth/stripes.png");
 
         error_label = new Label("Регистрация", game.skin, "comfo", new Color(1,0,0,1));
         login_label = new Label(" ", game.skin, "comfo", new Color(1,0,0,1));
@@ -118,7 +117,6 @@ public class Auth implements Screen, InputProcessor, AsyncResultPasser {
         game.stage.addActor(pass_label);
         game.multiplexer.addProcessor(this);
         game.multiplexer.addProcessor(game.stage);
-        game.listen();
 
         JSONObject auth = null;
         if(Gdx.files.local("auth.txt").exists()) {

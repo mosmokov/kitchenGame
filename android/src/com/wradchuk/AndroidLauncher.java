@@ -5,20 +5,16 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
-
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.sokolov.androidsizes.ISize;
 import com.sokolov.androidsizes.SizeFromDisplay;
-import com.wradchuk.utils.keyboard.AndroidView;
-import com.wradchuk.utils.keyboard.ApplicationBundle;
 import com.wradchuk.main.Core;
-import com.wradchuk.utils.sys.PatchedAndroidApplication;
+import com.wradchuk.utils.PatchedAndroidApplication;
 
 public class AndroidLauncher extends PatchedAndroidApplication {
 	public static PatchedAndroidApplication context                  ; // Контекст приложения
 
 	private View rootView;
-	private AndroidView androidView;
 	private int width, height;
 
 	/***
@@ -36,13 +32,8 @@ public class AndroidLauncher extends PatchedAndroidApplication {
 		display.getMetrics(metricsB);
 		int a = metricsB.widthPixels;
 		int a1 = metricsB.heightPixels;
-		//System.out.println("KITCHEN " + a);
-		//System.out.println("KITCHEN " + a1);
 
-		DisplayMetrics displaymetrics = getResources().getDisplayMetrics();
 
-		//System.out.println("KITCHEN " + displaymetrics.widthPixels);
-		//System.out.println("KITCHEN " + displaymetrics.heightPixels);
 
 
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
@@ -53,24 +44,9 @@ public class AndroidLauncher extends PatchedAndroidApplication {
 		rootView.getWindowVisibleDisplayFrame(rect);
 		width = rect.width();
 		height = rect.height();
-		androidView = new AndroidView(width, height);
-		rootView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
 
-			@Override public void onLayoutChange(View v, int left, int top, int right,
-				int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
 
-				Rect rect = new Rect();
-				rootView.getWindowVisibleDisplayFrame(rect);
-
-				if(!(width == rect.width() && height == rect.height())) {
-					width = rect.width();
-					height = rect.height();
-					androidView.onSizeChange(width, height);
-				}
-			}
-		});
-
-		initialize(new Core(new ApplicationBundle(androidView), context, getScreenSize(), a1), config);
+		initialize(new Core(context), config);
 	}
 
 

@@ -153,4 +153,11 @@ public class Utils {
         generator.dispose();
         return res;
     }
+
+
+    public static Sprite createSprite(String _file, float _x, float _y) {
+        Sprite sprite = new Sprite(new Texture(_file));
+        sprite.setPosition(_x, _y);
+        return sprite;
+    }
 }

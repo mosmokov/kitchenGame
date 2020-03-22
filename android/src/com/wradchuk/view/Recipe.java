@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.wradchuk.main.Core;
 import com.wradchuk.object.Scroll;
+import com.wradchuk.object.ToolBar;
 import com.wradchuk.utils.LogOut;
 import com.wradchuk.utils.Utils;
 
@@ -30,15 +31,7 @@ public class Recipe implements Screen, InputProcessor {
     private Sprite up_hide_pan;
     private Sprite down_hide_pan;
 
-
-    private Sprite toolbar_bg;
-    private Sprite toolbar_menu;
-    private Sprite toolbar_relit;
-    private Sprite toolbar_selit;
-    private Sprite toolbar_cap;
-    private Sprite toolbar_energy;
-    private Sprite toolbar_close;
-
+    private ToolBar toolBar;
 
     private Sprite namebar_cont;
     private Sprite arrow_left;
@@ -50,24 +43,18 @@ public class Recipe implements Screen, InputProcessor {
         game = _game;
 
 
-        recipe_bg      = createSprite("view/recipe/recipe_bg.png"       , 0, 0);
-        up_hide_pan    = createSprite("view/recipe/up_hide_pan.png"     , 0, 1110);
-        down_hide_pan  = createSprite("view/recipe/down_hide_pan.png"   , 0, 0);
+        recipe_bg      = Utils.createSprite("view/recipe/recipe_bg.png"       , 0, 0);
+        up_hide_pan    = Utils.createSprite("view/recipe/up_hide_pan.png"     , 0, 1110);
+        down_hide_pan  = Utils.createSprite("view/recipe/down_hide_pan.png"   , 0, 0);
 
-        toolbar_bg     = createSprite("view/recipe/toolbar_bg.png"      , 0, 1200);
-        toolbar_menu   = createSprite("view/recipe/toolbar_menu.png"    , 10, 1215);
-        toolbar_relit = createSprite("view/recipe/toolbar_relit.png"  , 87, 1215);
-        toolbar_selit  = createSprite("view/recipe/toolbar_selit.png"   , 212, 1215);
-        toolbar_cap  = createSprite("view/recipe/toolbar_cap.png"       , 353, 1215);
-        toolbar_energy = createSprite("view/recipe/toolbar_energy.png"  , 483, 1215);
-        toolbar_close  = createSprite("view/recipe/toolbar_close.png"   , 660, 1215);
+        toolBar = new ToolBar();
 
-        namebar_cont   = createSprite("view/recipe/namebar_cont.png"    , 10, 1110);
-        arrow_left     = createSprite("view/recipe/arrow.png"      , 20, 1125);
-        arrow_right    = createSprite("view/recipe/arrow.png"      , 675, 1125);
+        namebar_cont   = Utils.createSprite("view/recipe/namebar_cont.png"    , 10, 1110);
+        arrow_left     = Utils.createSprite("view/recipe/arrow.png"      , 20, 1125);
+        arrow_right    = Utils.createSprite("view/recipe/arrow.png"      , 675, 1125);
         //arrow_right.setRotation(-90);
 
-        find           =  createSprite("view/recipe/find.png"           , 610, 1120);
+        find           =  Utils.createSprite("view/recipe/find.png"           , 610, 1120);
 
 
 
@@ -78,10 +65,13 @@ public class Recipe implements Screen, InputProcessor {
         } catch(JSONException e) { LogOut.logEx(e.getMessage()); }
 
         setPosArrayScroll(scrolls, 1090, 3);
+
         for(int i = 0; i < scrolls.size(); i++) {
             scrolls.get(i).setCap();
             scrolls.get(i).addStage(game.stage);
         }
+
+        game.multiplexer.addProcessor(this);
 
     }
 
@@ -101,15 +91,11 @@ public class Recipe implements Screen, InputProcessor {
         game.batch.begin();
         up_hide_pan.draw(game.batch);
         down_hide_pan.draw(game.batch);
+        game.batch.end();
 
-        toolbar_bg.draw(game.batch);
-        toolbar_menu.draw(game.batch);
-        toolbar_relit.draw(game.batch);
-        toolbar_selit.draw(game.batch);
-        toolbar_cap.draw(game.batch);
-        toolbar_energy.draw(game.batch);
-        toolbar_close.draw(game.batch);
+        toolBar.render(game.batch);
 
+        game.batch.begin();
         namebar_cont.draw(game.batch);
         arrow_left.draw(game.batch);
         find.draw(game.batch);
@@ -136,13 +122,7 @@ public class Recipe implements Screen, InputProcessor {
         Utils.dispose(up_hide_pan);
         Utils.dispose(down_hide_pan);
 
-        Utils.dispose(toolbar_bg);
-        Utils.dispose(toolbar_menu);
-        Utils.dispose(toolbar_relit);
-        Utils.dispose(toolbar_selit);
-        Utils.dispose(toolbar_cap);
-        Utils.dispose(toolbar_energy);
-        Utils.dispose(toolbar_close);
+        toolBar.dispose();
 
         Utils.dispose(namebar_cont);
         Utils.dispose(arrow_left);
@@ -151,11 +131,6 @@ public class Recipe implements Screen, InputProcessor {
     }
 
 
-    public Sprite createSprite(String _file, float _x, float _y) {
-        Sprite sprite = new Sprite(new Texture(_file));
-        sprite.setPosition(_x, _y);
-        return sprite;
-    }
     public void setPosArrayScroll(ArrayList<Scroll> _scroll, float _y, int _len) {
         int line = (_scroll.size()/_len+1);
         float height_sprite = _scroll.get(0).scroll_widget.getHeight();
@@ -181,10 +156,10 @@ public class Recipe implements Screen, InputProcessor {
 
     }
 
-    public void moveScroll(float _y, float _new_y) {
-        for( int i = 0; i < scrolls.size(); i++) {
-            float sc_y = scrolls.get(i).scroll_widget.getY();
-
+    public void moveScroll(float _new_y) {
+        for(int i = 0; i < scrolls.size(); i++) {
+            scrolls.get(i).setPosition(scrolls.get(i).x, scrolls.get(i).y+_new_y);
+            scrolls.get(i).setCap();
         }
     }
 
@@ -203,8 +178,8 @@ public class Recipe implements Screen, InputProcessor {
     }
     @Override public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         mouse_sy = Gdx.graphics.getHeight()-screenY;
-
-        //if(mouse_px>mouse_sx) scrolls.
+        if(mouse_py-mouse_sy>0) moveScroll(scrolls.get(0).scroll_widget.getHeight());
+        else moveScroll(-scrolls.get(0).scroll_widget.getHeight());
         return false;
     }
     @Override public boolean touchDragged(int screenX, int screenY, int pointer) {

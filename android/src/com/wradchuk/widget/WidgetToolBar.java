@@ -56,13 +56,12 @@ public class WidgetToolBar {
         stage.addActor(toolbar_energy);
         stage.addActor(toolbar_close);
 
-        core.multiplexer.addProcessor(stage);
+        //core.multiplexer.addProcessor(stage);
     }
     public void render() {
         batch.begin();
         toolbar_bg.draw(batch);
         batch.end();
-
         stage.draw();
     }
     public void dispose() {

@@ -48,14 +48,12 @@ public class WidgetRecipe {
             scrolls.get(i).addStage(stage);
         }
 
-        core.multiplexer.addProcessor(stage);
+        //core.multiplexer.addProcessor(stage);
     }
 
     public void render() {
-        stage.draw();
-        //batch.begin();
         for(int i = 0; i < scrolls.size(); i++) scrolls.get(i).render(batch);
-        //batch.end();
+        stage.draw();
     }
     public void dispose() {
         Utils.dispose(batch);

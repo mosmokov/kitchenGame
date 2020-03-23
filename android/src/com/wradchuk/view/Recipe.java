@@ -42,7 +42,6 @@ public class Recipe implements Screen, InputProcessor {
     public Recipe(final Core _game) {
         game = _game;
 
-
         recipe_bg      = Utils.createSprite("view/recipe/recipe_bg.png"       , 0, 0);
         up_hide_pan    = Utils.createSprite("view/recipe/up_hide_pan.png"     , 0, 1110);
         down_hide_pan  = Utils.createSprite("view/recipe/down_hide_pan.png"   , 0, 0);
@@ -58,7 +57,8 @@ public class Recipe implements Screen, InputProcessor {
         find           =  Utils.createSprite("view/recipe/find.png"           , 610, 1120);
 
 
-        for(int i = 0; i < ALL_CONT; i++) widgetRecipes[i] = new WidgetRecipe(game,"Cont"+i, (720*i), 1090);
+        int id = 0;
+        widgetRecipes[id] = new WidgetRecipe(game,"Cont"+id, (720*id), 1090);
 
         game.multiplexer.addProcessor(this);
     }
@@ -71,29 +71,22 @@ public class Recipe implements Screen, InputProcessor {
         recipe_bg.draw(game.batch);
         game.batch.end();
 
+        //game.stage.draw();
 
-        game.stage.draw();
-
-        for(int i = 0; i < ALL_CONT; i++)
-            if(widgetRecipes[i].x>0 && widgetRecipes[i].x < 720) widgetRecipes[i].render();
+        widgetRecipes[0].render();
 
         game.batch.begin();
-        up_hide_pan.draw(game.batch);
+            up_hide_pan.draw(game.batch);
         game.batch.end();
 
         toolBar.render();
 
         game.batch.begin();
-        down_hide_pan.draw(game.batch);
-        game.batch.end();
-
-
-
-        game.batch.begin();
-        namebar_cont.draw(game.batch);
-        arrow_left.draw(game.batch);
-        find.draw(game.batch);
-        arrow_right.draw(game.batch);
+            down_hide_pan.draw(game.batch);
+            namebar_cont.draw(game.batch);
+            arrow_left.draw(game.batch);
+            find.draw(game.batch);
+            arrow_right.draw(game.batch);
         game.batch.end();
 
 
@@ -117,7 +110,7 @@ public class Recipe implements Screen, InputProcessor {
         Utils.dispose(down_hide_pan);
 
         toolBar.dispose();
-        for(int i = 0; i < ALL_CONT; i++) widgetRecipes[i].dispose();
+        widgetRecipes[0].dispose();
 
         Utils.dispose(namebar_cont);
         Utils.dispose(arrow_left);

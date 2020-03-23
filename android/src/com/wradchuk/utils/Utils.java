@@ -160,4 +160,9 @@ public class Utils {
         sprite.setPosition(_x, _y);
         return sprite;
     }
+    public static ImageButton createImageButton(String _off, String _on, float _x, float _y) {
+        ImageButton res = createImageButton(_off, _on);
+        res.setPosition(_x, _y);
+        return res;
+    }
 }

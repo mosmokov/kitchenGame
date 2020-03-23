@@ -3,24 +3,18 @@ package com.wradchuk.main;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.wradchuk.test.TestScreens;
-import com.wradchuk.utils.LogOut;
 import com.wradchuk.utils.PatchedAndroidApplication;
 import com.wradchuk.utils.Utils;
 import com.wradchuk.view.Recipe;
-
-import javax.microedition.khronos.opengles.GL;
 
 
 public class Core extends Game {

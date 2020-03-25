@@ -12,8 +12,6 @@ public class WidgetToolBar {
     public float x;
     public float y;
     public Core core;
-    public Stage stage;
-    public SpriteBatch batch;
 
     private Sprite toolbar_bg;
     private ImageButton toolbar_menu;
@@ -23,11 +21,7 @@ public class WidgetToolBar {
     private ImageButton toolbar_energy;
     private ImageButton toolbar_close;
 
-    public WidgetToolBar(Core _core) {
-        this.core = _core;
-        stage = core.stage;
-        batch = core.batch;
-    }
+    public WidgetToolBar() {}
 
     public void setPosition(float _x, float _y) {
         this.x = _x;
@@ -38,7 +32,7 @@ public class WidgetToolBar {
     }
 
 
-    public void init() {
+    public void init(Core _core) {
 
         toolbar_bg     = Utils.createSprite("widget/toolbar/toolbar_bg.png", x, y);
 
@@ -49,24 +43,20 @@ public class WidgetToolBar {
         toolbar_energy = createIB("widget/toolbar/toolbar_energy.png", 483, 15);
         toolbar_close  = createIB("widget/toolbar/toolbar_close.png", 660, 15);
 
-        stage.addActor(toolbar_menu);
-        stage.addActor(toolbar_relit);
-        stage.addActor(toolbar_selit);
-        stage.addActor(toolbar_cap);
-        stage.addActor(toolbar_energy);
-        stage.addActor(toolbar_close);
-
-        //core.multiplexer.addProcessor(stage);
+        _core.stage.addActor(toolbar_menu);
+        _core.stage.addActor(toolbar_relit);
+        _core.stage.addActor(toolbar_selit);
+        _core.stage.addActor(toolbar_cap);
+        _core.stage.addActor(toolbar_energy);
+        _core.stage.addActor(toolbar_close);
     }
-    public void render() {
-        batch.begin();
-        toolbar_bg.draw(batch);
-        batch.end();
-        stage.draw();
+    public void render(Core _core) {
+        _core.batch.begin();
+        toolbar_bg.draw(_core.batch);
+        _core.batch.end();
+        _core.stage.draw();
     }
     public void dispose() {
         Utils.dispose(toolbar_bg);
-        Utils.dispose(stage);
-        Utils.dispose(batch);
     }
 }

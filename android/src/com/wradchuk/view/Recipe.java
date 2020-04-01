@@ -29,7 +29,7 @@ public class Recipe implements Screen, InputProcessor {
     private Sprite down_hide_pan;
 
     private WidgetToolBar toolBar;
-    private WidgetRecipe[] widgetRecipes = new WidgetRecipe[6];
+    private WidgetRecipe widgetRecipes;
 
     private Sprite namebar_cont;
     private Sprite arrow_left;
@@ -57,8 +57,8 @@ public class Recipe implements Screen, InputProcessor {
         find           =  Utils.createSprite("view/recipe/find.png"           , 610, 1120);
 
 
-        int id = 0;
-        widgetRecipes[id] = new WidgetRecipe(core, batch, stage,"Cont"+id, (720*id), 1090);
+
+        widgetRecipes = new WidgetRecipe(core, stage, "Cont0");
 
         core.multiplexer.addProcessor(this);
         core.multiplexer.addProcessor(stage);
@@ -73,7 +73,7 @@ public class Recipe implements Screen, InputProcessor {
 
         core.drawSprite(recipe_bg);
 
-        widgetRecipes[0].render(batch, stage);
+        widgetRecipes.render(stage);
 
         core.drawSprite(up_hide_pan);
 
@@ -134,7 +134,7 @@ public class Recipe implements Screen, InputProcessor {
         LogOut.log("sx " + screenX + " sy: " + screenY);
         mouse_sy = Gdx.graphics.getHeight()-screenY;
 
-        widgetRecipes[0].moveScroll(mouse_py, mouse_sy);
+        //widgetRecipes[0].moveScroll(mouse_py, mouse_sy);
         mouse_py=mouse_sy;
 
         return false;

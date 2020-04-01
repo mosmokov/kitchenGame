@@ -59,6 +59,7 @@ public class Core extends Game {
         this.multiplexer  = new InputMultiplexer();
 
         Gdx.input.setInputProcessor(multiplexer);
+
         this.setScreen(new Recipe(this));
     }
 

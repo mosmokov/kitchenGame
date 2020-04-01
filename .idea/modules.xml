@@ -2,6 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/android/GITHUB-kitchenGame-android.iml" filepath="$PROJECT_DIR$/android/GITHUB-kitchenGame-android.iml" group="kitchenGame/android" />
+      <module fileurl="file://$PROJECT_DIR$/core/GITHUB-kitchenGame-core.iml" filepath="$PROJECT_DIR$/core/GITHUB-kitchenGame-core.iml" group="kitchenGame/core" />
+      <module fileurl="file://$PROJECT_DIR$/desktop/GITHUB-kitchenGame-desktop.iml" filepath="$PROJECT_DIR$/desktop/GITHUB-kitchenGame-desktop.iml" group="kitchenGame/desktop" />
+      <module fileurl="file://$PROJECT_DIR$/vksdk_library/GITHUB-kitchenGame-vksdk_library.iml" filepath="$PROJECT_DIR$/vksdk_library/GITHUB-kitchenGame-vksdk_library.iml" group="kitchenGame/vksdk_library" />
       <module fileurl="file://$PROJECT_DIR$/android/android.iml" filepath="$PROJECT_DIR$/android/android.iml" group="kitchenGame/android" />
       <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" group="kitchenGame/core" />
       <module fileurl="file://$PROJECT_DIR$/desktop/desktop.iml" filepath="$PROJECT_DIR$/desktop/desktop.iml" group="kitchenGame/desktop" />

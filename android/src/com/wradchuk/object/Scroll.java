@@ -1,6 +1,7 @@
 package com.wradchuk.object;
 
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Align;
 import com.wradchuk.main.Core;
 import com.wradchuk.utils.LogOut;
@@ -21,39 +23,33 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Scroll {
-    public float x, y;
-    public float nx, ny;
-
-    public boolean isMove = false;
 
     public boolean bought = false;
     public int state = -1;
     public ImageButton scroll_widget; //off on
+    public Skin skin;
     public Label title;
     public Label short_info;
     public Label price;
-
     public int[] cost = new int[3];
-    public Sprite[] cap = new Sprite[3];
+    public ImageButton[] cap = new ImageButton[3];
 
 
-    public Scroll(Core _game, JSONObject _scroll_data) {
-        title = new Label("", _game.skin);
-        short_info = new Label("", _game.skin);
-        price = new Label("", _game.skin);
+    public Scroll(Skin _skin, JSONObject _scroll_data) {
+        this.skin = _skin;
+
+        title = new Label("", skin, "monts", Color.BLACK);
+        short_info = new Label("", skin, "podko", Color.BLACK);
+        price = new Label("", skin, "patta", Color.BLACK);
+
         try {
             setBought(_scroll_data.getBoolean("bought"));
             setState(_scroll_data.getInt("state"));
             createButton();
 
             scroll_widget.addListener(new InputListener() {
-                @Override public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                    LogOut.log("touchUp");
-                }
-                @Override public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    LogOut.log("touchDown");
-                    return true;
-                }
+                @Override public void touchUp(InputEvent event, float x, float y, int pointer, int button) { LogOut.log("touchUp"); }
+                @Override public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) { LogOut.log("touchDown");return true; }
             });
 
             title.setText(_scroll_data.getString("title"));
@@ -68,43 +64,21 @@ public class Scroll {
         scroll_widget.addActor(price);
     }
 
-    public void setPosition(float _x, float _y) {
-        x = _x; y = _y;
-        scroll_widget.setPosition(_x, _y);
-    }
-    public void nextPosition(float _x, float _y) {
-        nx = nx+_x; ny = ny+_y;
-    }
-
-    public void move() {
-        if(y==ny) isMove = false;
-        else isMove = true;
-
-        if(isMove) {
-            int speed = 20;
-            if(y<=ny) y-=speed;
-            else y+=speed;
-        }
-
-        setPosition(x, y);
-        setCap();
-    }
-
 
     public void setBought(boolean _bought) {
         bought = _bought;
     }
-    public void setState(int _state) {
-        state = _state;
-    }
+    public void setState(int _state) { state = _state; }
     public void createButton() {
         if(bought) scroll_widget = Utils.createImageButton("view/recipe/rec_sheet_activ.png", "view/recipe/rec_sheet_activ.png");
         else scroll_widget = Utils.createImageButton("view/recipe/rec_sheet_deact.png", "view/recipe/rec_sheet_deact.png");
     }
+
+    public ImageButton createButton(String _file) {
+        return Utils.createImageButton(_file, _file);
+    }
     public void setCost(JSONArray _cost) throws JSONException {
         for (int i = 0; i < _cost.length(); i++) cost[i] = _cost.optInt(i);
-
-        LogOut.logEx("cost" + cost[0]);
     }
     public void setText() {
 
@@ -127,45 +101,32 @@ public class Scroll {
     }
     public void setCap() {
         if(state==2) {
-           cap[0] = new Sprite(new Texture("view/recipe/cap_activ.png"));
-           cap[1] = new Sprite(new Texture("view/recipe/cap_deactiv.png"));
-           cap[2] = new Sprite(new Texture("view/recipe/cap_deactiv.png"));
+           cap[0] = createButton("view/recipe/cap_activ.png");
+           cap[1] = createButton("view/recipe/cap_deactiv.png");
+           cap[2] = createButton("view/recipe/cap_deactiv.png");
         }
         else if(state==3) {
-            cap[0] = new Sprite(new Texture("view/recipe/cap_activ.png"));
-            cap[1] = new Sprite(new Texture("view/recipe/cap_activ.png"));
-            cap[2] = new Sprite(new Texture("view/recipe/cap_deactiv.png"));
+            cap[0] = createButton("view/recipe/cap_activ.png");
+            cap[1] = createButton("view/recipe/cap_activ.png");
+            cap[2] = createButton("view/recipe/cap_deactiv.png");
         }
         else if(state==4) {
-            cap[0] = new Sprite(new Texture("view/recipe/cap_activ.png"));
-            cap[1] = new Sprite(new Texture("view/recipe/cap_activ.png"));
-            cap[2] = new Sprite(new Texture("view/recipe/cap_activ.png"));
+            cap[0] = createButton("view/recipe/cap_activ.png");
+            cap[1] = createButton("view/recipe/cap_activ.png");
+            cap[2] = createButton("view/recipe/cap_activ.png");
         }
         else {
-            cap[0] = new Sprite(new Texture("view/recipe/cap_deactiv.png"));
-            cap[1] = new Sprite(new Texture("view/recipe/cap_deactiv.png"));
-            cap[2] = new Sprite(new Texture("view/recipe/cap_deactiv.png"));
+            cap[0] = createButton("view/recipe/cap_deactiv.png");
+            cap[1] = createButton("view/recipe/cap_deactiv.png");
+            cap[2] = createButton("view/recipe/cap_deactiv.png");
         }
 
-        cap[0].setPosition(x+30, y+30);
-        cap[1].setPosition(x+75, y+30);
-        cap[2].setPosition(x+120, y+30);
-    }
+        cap[0].setPosition(30, 30);
+        cap[1].setPosition(75, 30);
+        cap[2].setPosition(120, 30);
 
-    public void addStage(Stage _stage) {
-        _stage.addActor(scroll_widget);
-    }
-    public void render(SpriteBatch _batch) {
-        _batch.begin();
-        cap[0].draw(_batch);
-        cap[1].draw(_batch);
-        cap[2].draw(_batch);
-        _batch.end();
-    }
-    public void dispose() {
-
-        cap[0].getTexture().dispose();
-        cap[1].getTexture().dispose();
-        cap[2].getTexture().dispose();
+        scroll_widget.addActor(cap[0]);
+        scroll_widget.addActor(cap[1]);
+        scroll_widget.addActor(cap[2]);
     }
 }

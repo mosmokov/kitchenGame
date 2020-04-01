@@ -1,110 +1,88 @@
 package com.wradchuk.widget;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.wradchuk.main.Core;
 import com.wradchuk.object.Scroll;
 import com.wradchuk.utils.LogOut;
 import com.wradchuk.utils.Utils;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 public class WidgetRecipe {
 
-    public float x;
-    public float y;
 
-    public JSONObject jsonScreens;
-    public float[] x_scroll = new float[] { 150, 360, 570};
+    private JSONObject jsonScreens;
     public ArrayList<Scroll> scrolls = new ArrayList<>();
+    public Table scrollTable;
 
-
-    public WidgetRecipe(Core _core, SpriteBatch _batch, Stage _stage, String _cont, float _x, float _y) {
-        this.x = _x;
-        this.y = _y;
+    public WidgetRecipe(Core _core, Stage _stage, String _cont) {
 
         jsonScreens = Utils.read_json("view/recipe/recipe_list.json", Utils.DISCR.INTERNAL);
+
         try {
+
             int all = jsonScreens.getJSONObject(_cont).length();
-            for(int i = 0; i < all; i++) scrolls.add(new Scroll(_core, jsonScreens.getJSONObject(_cont).getJSONObject("Scroll_"+i)));
-        } catch(JSONException e) { LogOut.logEx(e.getMessage()); }
 
-        setPosArrayScroll(scrolls, y, x, 3);
+            for(int i = 0; i < all; i++) {
+                scrolls.add(new Scroll(_core.skin, jsonScreens.getJSONObject(_cont).getJSONObject("Scroll_"+i)));
+                scrolls.get(i).setCap();
+            }
+        }catch(JSONException e) { LogOut.logEx(e.getMessage()); }
 
-        LogOut.log("y2  " +getScroll(2) .y);
-        LogOut.log("y10 " +getScroll(10).y);
+        final Table temp = scrollTable();
+        final ScrollPane scroller = new ScrollPane(temp);
 
+        scrollTable = new Table();
+        scrollTable.setFillParent(true);
+        scrollTable.add(scroller).fill().expand();
 
-        for(int i = 0; i < scrolls.size(); i++) {
-            getScroll(i).setCap();
-            getScroll(i).addStage(_stage);
-            getScroll(i).nextPosition(getScroll(i).x, getScroll(i).y);
-        }
+        _stage.addActor(scrollTable);
     }
-
-    public void render(SpriteBatch _batch, Stage _stage) {
+    public void render(@NotNull Stage _stage) {
+        _stage. act();
         _stage.draw();
-        for(int i = 0; i < scrolls.size(); i++) {
-            getScroll(i).render(_batch);
-            getScroll(i).move();
-        }
     }
+    public Table scrollTable() {
+        Table res    = new Table();
+        int size     = scrolls.size();
+        int row      = 0;
+        int set_line = 0;
+        int all_line = size / 3;
+        int set_id   = 0;
 
-    public void setPosArrayScroll(ArrayList<Scroll> _scroll, float _y, float _x,int _len) {
-        int line = (_scroll.size()/_len+1);
-        float height_sprite = _scroll.get(0).scroll_widget.getHeight();
+        res.add(scrolls.get(0).scroll_widget).padTop(190).padBottom(10).padLeft(60).padRight(10);
+        res.add(scrolls.get(1).scroll_widget).padTop(190).padBottom(10).padLeft(10).padRight(10);
+        res.add(scrolls.get(2).scroll_widget).padTop(190).padBottom(10).padLeft(10).padRight(60);
+        res.row();
 
-        for(int i = 0; i < line; i++) {
-
-            if(i!=0) _y = _y-(height_sprite+30);
-            else _y = _y - height_sprite;
-
-            LogOut.log("New Line " + _y);
-            for(int j = 0; j < _len; j++) {
-
-                if((i*_len+j)<_scroll.size()) {
-                    ImageButton temp = _scroll.get(i*_len+j).scroll_widget;
-                    temp.setPosition(x+x_scroll[j]-(temp.getWidth()/2), _y);
-                    _scroll.get(i*_len+j).setPosition(temp.getX(), temp.getY());
-                }
+        for(int i = 3; i < size; i++) {
+            if(row > 2) {
+                res.row();
+                row = 0;
+                set_line++;
             }
 
+            if(set_line < all_line-1) {
+
+                if(row==0) res.add(scrolls.get(i).scroll_widget).padTop(10).padBottom(10).padLeft(60).padRight(10);
+                if(row==1) res.add(scrolls.get(i).scroll_widget).padTop(10).padBottom(10).padLeft(10).padRight(10);
+                if(row==2) res.add(scrolls.get(i).scroll_widget).padTop(10).padBottom(10).padLeft(10).padRight(60);
+
+                row++; set_id = i+1;
+            }
         }
 
-    }
-    public void moveScroll(float _mouse_py, float _mouse_sy) {
-        float res= _mouse_py-_mouse_sy;
-        if(res!=0) {
+        if(set_id<size) res.add(scrolls.get(set_id).scroll_widget).padTop(10).padBottom(270).padLeft(60).padRight(10); set_id++;
+        if(set_id<size) res.add(scrolls.get(set_id).scroll_widget).padTop(10).padBottom(270).padLeft(10).padRight(10); set_id++;
+        if(set_id<size) res.add(scrolls.get(set_id).scroll_widget).padTop(10).padBottom(270).padLeft(10).padRight(60);
 
-            for (int i = 0; i < scrolls.size(); i++)
-                if (res > 0) {
-                        if (!getScroll(i).isMove) {
-                            getScroll(i).nextPosition(0, 240);
-                            getScroll(i).isMove = true;
-                        }
-                    } else {
-                        if (!getScroll(i).isMove) {
-                            getScroll(i).nextPosition(0, -240);
-                            getScroll(i).isMove = true;
-                        }
-                    }
-                }
-        }
+        //res.row();
+        return res;
+    }
 
-
-    public Scroll getScroll(int _id) {
-        return scrolls.get(_id);
-    }
-    public void setScrollX(int _id, float _x) {
-        getScroll(_id).setPosition(getScroll(_id).x+_x, getScroll(_id).y);
-        getScroll(_id).setCap();
-    }
-    public void setScrollY(int _id, float _y) {
-        getScroll(_id).setPosition(getScroll(_id).x, getScroll(_id).y+_y);
-        getScroll(_id).setCap();
-    }
 }

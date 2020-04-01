@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -19,42 +18,32 @@ import com.wradchuk.view.Recipe;
 
 public class Core extends Game {
     public InputMultiplexer multiplexer;
-    public static PatchedAndroidApplication context                    ; // Контекст приложения
-    public float virtualHeight;
-    public float virtualWidth;
-    private int setWX = -1;
-    private int setWY = -1;
-    private ShapeRenderer renderer;
+    public static PatchedAndroidApplication context                      ; // Контекст приложения
+    public float virtualHeight = 1280                                    ; //
+    public float virtualWidth  =  720                                    ; //
+
     public          SpriteBatch               batch                      ; //
     public          Viewport                  viewport                   ; //
     public          Stage                     stage                      ; //
     public          Skin                      skin                       ; //
+
     public          BitmapFont                comfortaaRegular           ; //
     public          BitmapFont                montserratAlternatesRegular; //
     public          BitmapFont                pattayaRegular             ; //
     public          BitmapFont                podkovaRegular             ; //
-    public float keyboardHeight;
-    public float a1 = 0;
 
 
     public Core() {}
-    public Core(PatchedAndroidApplication _context) {
-        context = _context;
-
-    }
+    public Core(PatchedAndroidApplication _context) {this.context = _context;}
 
 
     public void create() {
-        this.virtualWidth  = 720;
-        this.virtualHeight = 1280;
-
         this.viewport      = new FitViewport(virtualWidth, virtualHeight);
+
         this.batch         = new SpriteBatch();
-        this.renderer      = new ShapeRenderer();
+        this.stage = new Stage(viewport);
 
-
-
-        skin  = new Skin(Gdx.files.internal("gdx/uiskin.json"));
+        this.skin  = new Skin(Gdx.files.internal("gdx/uiskin.json"));
 
         this.comfortaaRegular            = Utils.setFont("ttf/Comfortaa-Regular.ttf"           , 30);
         this.montserratAlternatesRegular = Utils.setFont("ttf/MontserratAlternates-Regular.ttf", 22);
@@ -67,37 +56,27 @@ public class Core extends Game {
         skin.add("podko", podkovaRegular,               BitmapFont.class);
 
 
+        this.multiplexer  = new InputMultiplexer();
 
-        stage = new Stage(viewport);
-        multiplexer  = new InputMultiplexer();
         Gdx.input.setInputProcessor(multiplexer);
-
         this.setScreen(new Recipe(this));
-
-
     }
 
-    @Override public void render() {
-        super.render();
-    }
-
+    @Override public void render() {super.render();}
     @Override public void dispose() {
         Utils.dispose(batch);
-        Utils.dispose(renderer);
         Utils.dispose(stage);
         Utils.dispose(comfortaaRegular);
         Utils.dispose(montserratAlternatesRegular);
         Utils.dispose(pattayaRegular);
         Utils.dispose(podkovaRegular);
-        //skin.dispose();
     }
     @Override public void resize(int width, int height) {
         viewport.update(width, height, true);
-        setWX = (int) viewport.getWorldWidth();
-        setWY = (int) viewport.getWorldHeight();
     }
     @Override public void pause() {}
     @Override public void resume() {}
+
 
     public void rotateSprite(Sprite s, float _speed) {
         float rotation=s.getRotation();
@@ -105,12 +84,24 @@ public class Core extends Game {
         if(rotation>360) rotation-=360;
         s.setRotation(rotation);
     }
+
+    public void drawSprite(Sprite _sprite) {
+        batch.begin();
+        _sprite.draw(batch);
+        batch.end();
+    }
     public void update() {
         viewport.getCamera().update();
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.gl.glClearColor(0, 0, 1, 1);
+    }
+
+    public SpriteBatch setProMatBatch(SpriteBatch _batch) {
+        _batch = new SpriteBatch();
+        _batch.setProjectionMatrix(viewport.getCamera().combined);
+        return _batch;
     }
 
 }

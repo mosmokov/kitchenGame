@@ -4,6 +4,10 @@ package com.wradchuk.object;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -18,6 +22,10 @@ import org.json.JSONObject;
 
 public class Scroll {
     public float x, y;
+    public float nx, ny;
+
+    public boolean isMove = false;
+
     public boolean bought = false;
     public int state = -1;
     public ImageButton scroll_widget; //off on
@@ -38,6 +46,16 @@ public class Scroll {
             setState(_scroll_data.getInt("state"));
             createButton();
 
+            scroll_widget.addListener(new InputListener() {
+                @Override public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                    LogOut.log("touchUp");
+                }
+                @Override public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    LogOut.log("touchDown");
+                    return true;
+                }
+            });
+
             title.setText(_scroll_data.getString("title"));
             short_info.setText(_scroll_data.getString("short_info"));
 
@@ -54,6 +72,24 @@ public class Scroll {
         x = _x; y = _y;
         scroll_widget.setPosition(_x, _y);
     }
+    public void nextPosition(float _x, float _y) {
+        nx = nx+_x; ny = ny+_y;
+    }
+
+    public void move() {
+        if(y==ny) isMove = false;
+        else isMove = true;
+
+        if(isMove) {
+            int speed = 20;
+            if(y<=ny) y-=speed;
+            else y+=speed;
+        }
+
+        setPosition(x, y);
+        setCap();
+    }
+
 
     public void setBought(boolean _bought) {
         bought = _bought;

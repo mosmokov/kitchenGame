@@ -6,6 +6,10 @@
       <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" group="kitchenGame/core" />
       <module fileurl="file://$PROJECT_DIR$/desktop/desktop.iml" filepath="$PROJECT_DIR$/desktop/desktop.iml" group="kitchenGame/desktop" />
       <module fileurl="file://$PROJECT_DIR$/kitchenGame.iml" filepath="$PROJECT_DIR$/kitchenGame.iml" group="kitchenGame" />
+      <module fileurl="file://$PROJECT_DIR$/android/kitchenGame-android.iml" filepath="$PROJECT_DIR$/android/kitchenGame-android.iml" group="kitchenGame/android" />
+      <module fileurl="file://$PROJECT_DIR$/core/kitchenGame-core.iml" filepath="$PROJECT_DIR$/core/kitchenGame-core.iml" group="kitchenGame/core" />
+      <module fileurl="file://$PROJECT_DIR$/desktop/kitchenGame-desktop.iml" filepath="$PROJECT_DIR$/desktop/kitchenGame-desktop.iml" group="kitchenGame/desktop" />
+      <module fileurl="file://$PROJECT_DIR$/vksdk_library/kitchenGame-vksdk_library.iml" filepath="$PROJECT_DIR$/vksdk_library/kitchenGame-vksdk_library.iml" group="kitchenGame/vksdk_library" />
       <module fileurl="file://$PROJECT_DIR$/vksdk_library/vksdk_library.iml" filepath="$PROJECT_DIR$/vksdk_library/vksdk_library.iml" group="kitchenGame/vksdk_library" />
     </modules>
   </component>

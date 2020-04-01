@@ -1,6 +1,5 @@
 package com.wradchuk.widget;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -18,47 +17,43 @@ public class WidgetRecipe {
 
     public float x;
     public float y;
-    public Core core;
-    public Stage stage;
-    public SpriteBatch batch;
 
     public JSONObject jsonScreens;
     public float[] x_scroll = new float[] { 150, 360, 570};
     public ArrayList<Scroll> scrolls = new ArrayList<>();
 
 
-    public WidgetRecipe(Core _core, String _cont, float _x, float _y) {
-        this.core = _core;
-        stage = core.stage;
-        batch = core.batch;
-
+    public WidgetRecipe(Core _core, SpriteBatch _batch, Stage _stage, String _cont, float _x, float _y) {
         this.x = _x;
         this.y = _y;
 
         jsonScreens = Utils.read_json("view/recipe/recipe_list.json", Utils.DISCR.INTERNAL);
         try {
             int all = jsonScreens.getJSONObject(_cont).length();
-            for(int i = 0; i < all; i++) scrolls.add(new Scroll(core, jsonScreens.getJSONObject(_cont).getJSONObject("Scroll_"+i)));
+            for(int i = 0; i < all; i++) scrolls.add(new Scroll(_core, jsonScreens.getJSONObject(_cont).getJSONObject("Scroll_"+i)));
         } catch(JSONException e) { LogOut.logEx(e.getMessage()); }
 
         setPosArrayScroll(scrolls, y, x, 3);
 
+        LogOut.log("y2  " +getScroll(2) .y);
+        LogOut.log("y10 " +getScroll(10).y);
+
+
         for(int i = 0; i < scrolls.size(); i++) {
-            scrolls.get(i).setCap();
-            scrolls.get(i).addStage(stage);
+            getScroll(i).setCap();
+            getScroll(i).addStage(_stage);
+            getScroll(i).nextPosition(getScroll(i).x, getScroll(i).y);
         }
-
-        //core.multiplexer.addProcessor(stage);
     }
 
-    public void render() {
-        for(int i = 0; i < scrolls.size(); i++) scrolls.get(i).render(batch);
-        stage.draw();
+    public void render(SpriteBatch _batch, Stage _stage) {
+        _stage.draw();
+        for(int i = 0; i < scrolls.size(); i++) {
+            getScroll(i).render(_batch);
+            getScroll(i).move();
+        }
     }
-    public void dispose() {
-        Utils.dispose(batch);
-        Utils.dispose(stage);
-    }
+
     public void setPosArrayScroll(ArrayList<Scroll> _scroll, float _y, float _x,int _len) {
         int line = (_scroll.size()/_len+1);
         float height_sprite = _scroll.get(0).scroll_widget.getHeight();
@@ -82,17 +77,34 @@ public class WidgetRecipe {
 
     }
     public void moveScroll(float _mouse_py, float _mouse_sy) {
-            for(int i = 0; i < scrolls.size(); i++)
-                if(_mouse_py-_mouse_sy>0) {
-                scrolls.get(i).setPosition(scrolls.get(i).x, scrolls.get(i).y+200);
-                scrolls.get(i).setCap();
-                } else {
-                    scrolls.get(i).setPosition(scrolls.get(i).x, scrolls.get(i).y-200);
-                    scrolls.get(i).setCap();
+        float res= _mouse_py-_mouse_sy;
+        if(res!=0) {
+
+            for (int i = 0; i < scrolls.size(); i++)
+                if (res > 0) {
+                        if (!getScroll(i).isMove) {
+                            getScroll(i).nextPosition(0, 240);
+                            getScroll(i).isMove = true;
+                        }
+                    } else {
+                        if (!getScroll(i).isMove) {
+                            getScroll(i).nextPosition(0, -240);
+                            getScroll(i).isMove = true;
+                        }
+                    }
                 }
+        }
 
+
+    public Scroll getScroll(int _id) {
+        return scrolls.get(_id);
     }
-
-
-
+    public void setScrollX(int _id, float _x) {
+        getScroll(_id).setPosition(getScroll(_id).x+_x, getScroll(_id).y);
+        getScroll(_id).setCap();
+    }
+    public void setScrollY(int _id, float _y) {
+        getScroll(_id).setPosition(getScroll(_id).x, getScroll(_id).y+_y);
+        getScroll(_id).setCap();
+    }
 }

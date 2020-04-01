@@ -4,26 +4,24 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.wradchuk.main.Core;
-import com.wradchuk.object.Scroll;
+import com.wradchuk.utils.LogOut;
 import com.wradchuk.widget.WidgetRecipe;
 import com.wradchuk.widget.WidgetToolBar;
-import com.wradchuk.utils.LogOut;
 import com.wradchuk.utils.Utils;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 public class Recipe implements Screen, InputProcessor {
-    final Core game;
-    private final int ALL_CONT = 6;
-    private int SET_CONT = 0;
 
-    private int mouse_sx=0, mouse_sy=0            ;   // Текушие координаты миши
-    private int mouse_px=0, mouse_py=0            ;   // Предыдущие координаты мыши
+    private final Core core;
+    private SpriteBatch batch;
+    private Stage stage;
+
+    private float mouse_sy=0, mouse_py=0;
+
+
 
     // Bg
     private Sprite recipe_bg;
@@ -39,16 +37,18 @@ public class Recipe implements Screen, InputProcessor {
     private Sprite find;
 
 
-    public Recipe(final Core _game) {
-        game = _game;
+    public Recipe(Core _core) {
+        this.core = _core;
+        this.batch = core.setProMatBatch(batch);
+        this.stage = new Stage(core.viewport);
 
         recipe_bg      = Utils.createSprite("view/recipe/recipe_bg.png"       , 0, 0);
         up_hide_pan    = Utils.createSprite("view/recipe/up_hide_pan.png"     , 0, 1110);
         down_hide_pan  = Utils.createSprite("view/recipe/down_hide_pan.png"   , 0, 0);
 
-        toolBar = new WidgetToolBar(game);
+        toolBar = new WidgetToolBar();
         toolBar.setPosition(0, 1200);
-        toolBar.init();
+        toolBar.init(core);
 
         namebar_cont   = Utils.createSprite("view/recipe/namebar_cont.png"    , 10, 1110);
         arrow_left     = Utils.createSprite("view/recipe/arrow.png"      , 20, 1125);
@@ -58,59 +58,48 @@ public class Recipe implements Screen, InputProcessor {
 
 
         int id = 0;
-        widgetRecipes[id] = new WidgetRecipe(game,"Cont"+id, (720*id), 1090);
+        widgetRecipes[id] = new WidgetRecipe(core, batch, stage,"Cont"+id, (720*id), 1090);
 
-        game.multiplexer.addProcessor(this);
+        core.multiplexer.addProcessor(this);
+        core.multiplexer.addProcessor(stage);
+
+
+
     }
 
-    @Override public void show() {}
+
     @Override public void render(float delta) {
-        game.update();
+        core.update();
 
-        game.batch.begin();
-        recipe_bg.draw(game.batch);
-        game.batch.end();
+        core.drawSprite(recipe_bg);
 
-        //game.stage.draw();
+        widgetRecipes[0].render(batch, stage);
 
-        widgetRecipes[0].render();
+        core.drawSprite(up_hide_pan);
 
-        game.batch.begin();
-            up_hide_pan.draw(game.batch);
-        game.batch.end();
+        toolBar.render(core);
 
-        toolBar.render();
-
-        game.batch.begin();
-            down_hide_pan.draw(game.batch);
-            namebar_cont.draw(game.batch);
-            arrow_left.draw(game.batch);
-            find.draw(game.batch);
-            arrow_right.draw(game.batch);
-        game.batch.end();
-
-
+        core.batch.begin();
+            down_hide_pan.draw(core.batch);
+            namebar_cont .draw(core.batch);
+            arrow_left   .draw(core.batch);
+            find         .draw(core.batch);
+            arrow_right  .draw(core.batch);
+        core.batch.end();
 
     }
     @Override public void resize(int width, int height) {
-        game.resize(width, height);
-    }
-    @Override public void pause() {
-
-    }
-    @Override public void resume() {
-
-    }
-    @Override public void hide() {
-
+        core.resize(width, height);
     }
     @Override public void dispose() {
+        Utils.dispose(batch);
+        Utils.dispose(stage);
+
         Utils.dispose(recipe_bg);
         Utils.dispose(up_hide_pan);
         Utils.dispose(down_hide_pan);
 
         toolBar.dispose();
-        widgetRecipes[0].dispose();
 
         Utils.dispose(namebar_cont);
         Utils.dispose(arrow_left);
@@ -118,8 +107,36 @@ public class Recipe implements Screen, InputProcessor {
         Utils.dispose(find);
     }
 
+    @Override public void show() {}
+    @Override public void hide() {
+
+    }
+
+    @Override public void pause() {
+
+    }
+    @Override public void resume() {
+
+    }
+
 
     @Override public boolean keyDown(int keycode) {
+        return false;
+    }
+
+
+    @Override public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        LogOut.log("px " + screenX + " py: " + screenY);
+        mouse_py = Gdx.graphics.getHeight()-screenY;
+        return false;
+    }
+    @Override public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        LogOut.log("sx " + screenX + " sy: " + screenY);
+        mouse_sy = Gdx.graphics.getHeight()-screenY;
+
+        widgetRecipes[0].moveScroll(mouse_py, mouse_sy);
+        mouse_py=mouse_sy;
+
         return false;
     }
     @Override public boolean keyUp(int keycode) {
@@ -128,25 +145,15 @@ public class Recipe implements Screen, InputProcessor {
     @Override public boolean keyTyped(char character) {
         return false;
     }
-    @Override public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        mouse_py = Gdx.graphics.getHeight()-screenY;
-        return false;
-    }
-    @Override public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        mouse_sy = Gdx.graphics.getHeight()-screenY;
-        widgetRecipes[0].moveScroll(mouse_py, mouse_sy);
-        LogOut.log("py " + mouse_py + " sy " + mouse_sy);
-        mouse_py=mouse_sy;
-        return false;
-    }
+
     @Override public boolean touchDragged(int screenX, int screenY, int pointer) {
         return false;
     }
     @Override public boolean mouseMoved(int screenX, int screenY) {
-
         return false;
     }
     @Override public boolean scrolled(int amount) {
         return false;
     }
+
 }

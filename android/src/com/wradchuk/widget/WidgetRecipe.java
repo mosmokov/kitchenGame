@@ -1,7 +1,6 @@
 package com.wradchuk.widget;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -15,8 +14,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 
-public class WidgetRecipe {
 
+public class WidgetRecipe {
 
     private JSONObject jsonScreens;
     public ArrayList<Scroll> scrolls = new ArrayList<>();

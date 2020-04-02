@@ -64,9 +64,14 @@ public class WidgetRecipe {
         int all_line = size / 3;
         int set_id   = 0;
 
-        res.add(scrolls.get(0).scroll_widget).padTop(190).padBottom(15).padLeft(60).padRight(15);
-        res.add(scrolls.get(1).scroll_widget).padTop(190).padBottom(15).padLeft(15).padRight(15);
-        res.add(scrolls.get(2).scroll_widget).padTop(190).padBottom(15).padLeft(15).padRight(60);
+        int offset = 15;
+        int bottom_off = 270;
+        int top_off = 190;
+        int lr = 60;
+
+        res.add(scrolls.get(0).scroll_widget).padTop(top_off).padBottom(offset).padLeft(lr).padRight(offset);
+        res.add(scrolls.get(1).scroll_widget).padTop(top_off).padBottom(offset).padLeft(offset).padRight(offset);
+        res.add(scrolls.get(2).scroll_widget).padTop(top_off).padBottom(offset).padLeft(offset).padRight(lr);
         res.row();
 
         for(int i = 3; i < size; i++) {
@@ -78,17 +83,17 @@ public class WidgetRecipe {
 
             if(set_line < all_line-1) {
 
-                if(row==0) res.add(scrolls.get(i).scroll_widget).padTop(10).padBottom(10).padLeft(60).padRight(10);
-                if(row==1) res.add(scrolls.get(i).scroll_widget).padTop(10).padBottom(10).padLeft(10).padRight(10);
-                if(row==2) res.add(scrolls.get(i).scroll_widget).padTop(10).padBottom(10).padLeft(10).padRight(60);
+                if(row==0) res.add(scrolls.get(i).scroll_widget).padTop(offset).padBottom(offset).padLeft(lr).padRight(offset);
+                if(row==1) res.add(scrolls.get(i).scroll_widget).padTop(offset).padBottom(offset).padLeft(offset).padRight(offset);
+                if(row==2) res.add(scrolls.get(i).scroll_widget).padTop(offset).padBottom(offset).padLeft(offset).padRight(lr);
 
                 row++; set_id = i+1;
             }
         }
 
-        if(set_id<size) res.add(scrolls.get(set_id).scroll_widget).padTop(15).padBottom(270).padLeft(60).padRight(15); set_id++;
-        if(set_id<size) res.add(scrolls.get(set_id).scroll_widget).padTop(15).padBottom(270).padLeft(15).padRight(15); set_id++;
-        if(set_id<size) res.add(scrolls.get(set_id).scroll_widget).padTop(15).padBottom(270).padLeft(15).padRight(60);
+        if(set_id<size) res.add(scrolls.get(set_id).scroll_widget).padTop(offset).padBottom(bottom_off).padLeft(lr).padRight(offset); set_id++;
+        if(set_id<size) res.add(scrolls.get(set_id).scroll_widget).padTop(offset).padBottom(bottom_off).padLeft(offset).padRight(offset); set_id++;
+        if(set_id<size) res.add(scrolls.get(set_id).scroll_widget).padTop(offset).padBottom(bottom_off).padLeft(offset).padRight(lr);
 
         res.row();
         return res;

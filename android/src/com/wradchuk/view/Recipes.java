@@ -7,16 +7,16 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.wradchuk.main.Core;
-import com.wradchuk.widget.WidgetRecipe;
+import com.wradchuk.widget.WidgetRecipes;
 import com.wradchuk.widget.WidgetToolBar;
 import com.wradchuk.utils.Utils;
 
 
-public class Recipe implements Screen, InputProcessor {
+public class Recipes implements Screen, InputProcessor {
 
     private final Core core;
     private SpriteBatch batch;
-    private Stage stage;
+    private Stage stage, stage1;
 
     private float mouse_sy=0, mouse_py=0;
 
@@ -28,7 +28,7 @@ public class Recipe implements Screen, InputProcessor {
     private Sprite down_hide_pan;
 
     private WidgetToolBar toolBar;
-    private WidgetRecipe widgetRecipes;
+    private WidgetRecipes widgetRecipes;
 
     private Sprite namebar_cont;
     private Sprite arrow_left;
@@ -36,18 +36,18 @@ public class Recipe implements Screen, InputProcessor {
     private Sprite find;
 
 
-    public Recipe(Core _core) {
+    public Recipes(Core _core) {
         this.core = _core;
         this.batch = core.setProMatBatch(batch);
         this.stage = new Stage(core.viewport);
+        this.stage1 = new Stage(core.viewport);
 
         recipe_bg      = Utils.createSprite("view/recipe/recipe_bg.png"       , 0, 0);
         up_hide_pan    = Utils.createSprite("view/recipe/up_hide_pan.png"     , 0, 1110);
         down_hide_pan  = Utils.createSprite("view/recipe/down_hide_pan.png"   , 0, 0);
 
-        toolBar = new WidgetToolBar();
-        toolBar.setPosition(0, 1200);
-        toolBar.init(core);
+        toolBar = new WidgetToolBar(0, 1200);
+        toolBar.init(stage1, core);
 
         namebar_cont   = Utils.createSprite("view/recipe/namebar_cont.png"    , 10, 1110);
         arrow_left     = Utils.createSprite("view/recipe/arrow.png"      , 20, 1125);
@@ -57,7 +57,7 @@ public class Recipe implements Screen, InputProcessor {
 
 
 
-        widgetRecipes = new WidgetRecipe(core, stage, "Cont0");
+        widgetRecipes = new WidgetRecipes(core, stage, "Cont0");
 
         core.multiplexer.addProcessor(this);
         core.multiplexer.addProcessor(stage);
@@ -76,7 +76,7 @@ public class Recipe implements Screen, InputProcessor {
 
         core.drawSprite(up_hide_pan);
 
-        toolBar.render(core);
+        toolBar.render(stage1);
 
         core.batch.begin();
             down_hide_pan.draw(core.batch);
@@ -93,6 +93,7 @@ public class Recipe implements Screen, InputProcessor {
     @Override public void dispose() {
         Utils.dispose(batch);
         Utils.dispose(stage);
+        Utils.dispose(stage1);
 
         Utils.dispose(recipe_bg);
         Utils.dispose(up_hide_pan);

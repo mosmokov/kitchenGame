@@ -1,6 +1,5 @@
 package com.wradchuk.widget;
 
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -15,15 +14,16 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-public class WidgetRecipe {
+public class WidgetRecipes {
 
     private JSONObject jsonScreens;
     public ArrayList<Scroll> scrolls = new ArrayList<>();
     public Table scrollTable;
+    private ScrollPane scroller;
     public int isPress = 0;
     public int openID = -1;
 
-    public WidgetRecipe(Core _core, Stage _stage, String _cont) {
+    public WidgetRecipes(Core _core, Stage _stage, String _cont) {
 
         jsonScreens = Utils.read_json("view/recipe/recipe_list.json", Utils.DISCR.INTERNAL);
 
@@ -38,7 +38,7 @@ public class WidgetRecipe {
         }catch(JSONException e) { LogOut.logEx(e.getMessage()); }
 
         final Table temp = scrollTable();
-        final ScrollPane scroller = new ScrollPane(temp);
+        scroller = new ScrollPane(temp);
 
         scrollTable = new Table();
         scrollTable.setFillParent(true);
@@ -49,11 +49,8 @@ public class WidgetRecipe {
     public void render(@NotNull Stage _stage) {
         _stage. act();
         _stage.draw();
-        for(int i = 0; i < scrolls.size(); i++) {
-            if(scrolls.get(i).openFull) {
-                LogOut.log("Scroll = " + i);
-            }
-        }
+        for(int i = 0; i < scrolls.size(); i++)
+            scrolls.get(i).scroller(scroller);
     }
     public Table scrollTable() {
         Table res    = new Table();

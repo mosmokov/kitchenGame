@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.wradchuk.utils.PatchedAndroidApplication;
 import com.wradchuk.utils.Utils;
-import com.wradchuk.view.Recipe;
+import com.wradchuk.view.Recipes;
 
 
 public class Core extends Game {
@@ -60,7 +60,7 @@ public class Core extends Game {
 
         Gdx.input.setInputProcessor(multiplexer);
 
-        this.setScreen(new Recipe(this));
+        this.setScreen(new Recipes(this));
     }
 
     @Override public void render() {super.render();}

@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.wradchuk.main.Core;
-import com.wradchuk.utils.LogOut;
 import com.wradchuk.widget.WidgetRecipe;
 import com.wradchuk.widget.WidgetToolBar;
 import com.wradchuk.utils.Utils;
@@ -126,15 +125,16 @@ public class Recipe implements Screen, InputProcessor {
 
 
     @Override public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        LogOut.log("px " + screenX + " py: " + screenY);
+        //LogOut.log("px " + screenX + " py: " + screenY);
         mouse_py = Gdx.graphics.getHeight()-screenY;
         return false;
     }
     @Override public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        LogOut.log("sx " + screenX + " sy: " + screenY);
+        //LogOut.log("sx " + screenX + " sy: " + screenY);
         mouse_sy = Gdx.graphics.getHeight()-screenY;
 
-        //widgetRecipes[0].moveScroll(mouse_py, mouse_sy);
+        if(mouse_py-mouse_sy==0) widgetRecipes.isOpen();
+
         mouse_py=mouse_sy;
 
         return false;

@@ -33,6 +33,7 @@ public class Scroll {
     public Label price;
     public int[] cost = new int[3];
     public ImageButton[] cap = new ImageButton[3];
+    public boolean openFull = false;
 
 
     public Scroll(Skin _skin, JSONObject _scroll_data) {
@@ -46,11 +47,6 @@ public class Scroll {
             setBought(_scroll_data.getBoolean("bought"));
             setState(_scroll_data.getInt("state"));
             createButton();
-
-            scroll_widget.addListener(new InputListener() {
-                @Override public void touchUp(InputEvent event, float x, float y, int pointer, int button) { LogOut.log("touchUp"); }
-                @Override public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) { LogOut.log("touchDown");return true; }
-            });
 
             title.setText(_scroll_data.getString("title"));
             short_info.setText(_scroll_data.getString("short_info"));

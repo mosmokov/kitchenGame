@@ -86,9 +86,9 @@ public class WidgetRecipe {
             }
         }
 
-        if(set_id<size) res.add(scrolls.get(set_id).scroll_widget).padTop(10).padBottom(270).padLeft(60).padRight(15); set_id++;
-        if(set_id<size) res.add(scrolls.get(set_id).scroll_widget).padTop(10).padBottom(270).padLeft(15).padRight(15); set_id++;
-        if(set_id<size) res.add(scrolls.get(set_id).scroll_widget).padTop(10).padBottom(270).padLeft(15).padRight(60);
+        if(set_id<size) res.add(scrolls.get(set_id).scroll_widget).padTop(15).padBottom(270).padLeft(60).padRight(15); set_id++;
+        if(set_id<size) res.add(scrolls.get(set_id).scroll_widget).padTop(15).padBottom(270).padLeft(15).padRight(15); set_id++;
+        if(set_id<size) res.add(scrolls.get(set_id).scroll_widget).padTop(15).padBottom(270).padLeft(15).padRight(60);
 
         res.row();
         return res;
